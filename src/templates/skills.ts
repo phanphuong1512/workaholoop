@@ -156,6 +156,11 @@ completed: number
 - Code MUST NOT be written until \`tasks.md\` exists.
 - A change MUST NOT be closed until verification commands pass.
 - Changes in \`archive/\` are read-only and serve as project history.
+
+## Command Chaining Protocol (Native Auto-Pilot)
+- If the user provides multiple slash commands in a single prompt (e.g., \`/wlp:propose, then /wlp:spec\`), you MUST execute them strictly in sequence.
+- You must complete all outputs and status updates for the first command before executing the next.
+- Do not stop for human review between chained commands; proceed continuously until the final command in the chain is executed.
 `;
 
 export const autoMd = `# Auto-Pilot (/wlp:auto)
