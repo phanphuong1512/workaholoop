@@ -1,0 +1,50 @@
+{
+  "name": "@workaholoop/cli",
+  "version": "1.0.3",
+  "description": "A Spec-Driven State Machine for AI Agents. Enforces structured workflows, parallel worktrees, and zero-config GitHub sync.",
+  "main": "dist/cli.js",
+  "files": [
+    "dist",
+    "bin"
+  ],
+  "bin": {
+    "wlp": "./bin/wlp.js"
+  },
+  "scripts": {
+    "build": "tsup",
+    "dev": "tsup --watch",
+    "start": "node dist/cli.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/phanphuong1512/workaholoop.git"
+  },
+  "keywords": [
+    "ai-agents",
+    "agentic-workflows",
+    "claude-code",
+    "spec-driven-development",
+    "state-machine",
+    "git-worktree",
+    "cli"
+  ],
+  "author": "",
+  "license": "ISC",
+  "type": "module",
+  "bugs": {
+    "url": "https://github.com/phanphuong1512/workaholoop/issues"
+  },
+  "homepage": "https://github.com/phanphuong1512/workaholoop#readme",
+  "dependencies": {
+    "@octokit/rest": "^22.0.1",
+    "commander": "^15.0.0",
+    "gray-matter": "^4.0.3",
+    "picocolors": "^1.1.1"
+  },
+  "devDependencies": {
+    "@types/node": "^25.9.3",
+    "tsup": "^8.5.1",
+    "typescript": "^6.0.3"
+  }
+}

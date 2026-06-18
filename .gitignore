@@ -1,0 +1,8 @@
+node_modules/
+dist/
+.claude/
+wlp/
+.wlp-worktrees/
+*.tgz
+.env
+.DS_Store
