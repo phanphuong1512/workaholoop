@@ -76,5 +76,19 @@ Use this command when the user expresses intent to: finish, merge, or archive th
 1. Verify that all tasks are complete and verification has passed.
 2. Commit the changes, squash merge the branch.
 3. Move the change directory to \`wlp/changes/archive/\`.
-4. Close the associated GitHub issue if syncing is enabled.`
+4. Close the associated GitHub issue if syncing is enabled.`,
+
+  'wlp/auto.md': `---
+name: WLP: Auto-Pilot
+description: Run the full WLP lifecycle sequentially without human intervention
+---
+# /wlp:auto
+
+Use this command when the user wants to chain commands or run a feature end-to-end autonomously (like ECC).
+
+## INSTRUCTIONS
+1. Execute the entire WLP State Machine sequentially for the user's request.
+2. Flow: Propose -> Spec -> Plan -> Execute -> Verify -> Close.
+3. You MUST complete one phase, update the status frontmatter, and immediately proceed to the next phase.
+4. Do NOT stop for human review unless you encounter a critical failure you cannot self-heal.`
 };

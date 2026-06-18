@@ -86,6 +86,7 @@ export const initCommand = new Command('init')
       'execute.md': skills.executeMd,
       'verify.md': skills.verifyMd,
       'close.md': skills.closeMd,
+      'auto.md': skills.autoMd,
       'conventions.md': skills.conventionsMd
     };
 

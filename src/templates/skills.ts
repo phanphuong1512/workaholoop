@@ -25,6 +25,7 @@ Activate this skill when the user expresses intent to:
 | "code/execute/implement..."    | /wlp:execute | → references/execute.md |
 | "test/verify/check..."         | /wlp:verify | → references/verify.md |
 | "done/close/merge/archive..."  | /wlp:close | → references/close.md |
+| "auto/chain/end-to-end..."     | /wlp:auto | → references/auto.md |
 | "status/standup/progress..."   | Tell user to run \`wlp status\` or \`wlp standup\` in terminal | — |
 
 ## Context Loading
@@ -155,4 +156,15 @@ completed: number
 - Code MUST NOT be written until \`tasks.md\` exists.
 - A change MUST NOT be closed until verification commands pass.
 - Changes in \`archive/\` are read-only and serve as project history.
+`;
+
+export const autoMd = `# Auto-Pilot (/wlp:auto)
+
+**Goal:** Run the full WLP lifecycle sequentially without human intervention.
+
+## Instructions
+1. Execute the entire WLP State Machine sequentially for the user's request.
+2. Flow: Propose -> Spec -> Plan -> Execute -> Verify -> Close.
+3. You MUST complete one phase, update the status frontmatter, and immediately proceed to the next phase.
+4. Do NOT stop for human review unless you encounter a critical failure you cannot self-heal.
 `;
