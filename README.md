@@ -15,6 +15,13 @@ The era of "Vibe Coding" is over. When you let AI agents code without a strict p
 
 **Workaholoop (WLP)** is an orchestration framework that forces your AI agents (Claude Code, Cursor, Aider) into a disciplined, military-grade development lifecycle. It replaces abstract conversational memory with deterministic, on-disk state machines. **File = State = Truth.**
 
+## 🧭 Philosophy
+
+1. **Spec-Driven**: Every line of code must trace back to a specification. You don't code without an approved spec.
+2. **File as State**: If a change folder is in `wlp/changes/active/`, work is in progress. If it's in `wlp/changes/archive/`, it's done. The local filesystem is the single source of truth.
+3. **Strict by Default**: You must progress through the phases sequentially: `PROPOSED` → `SPECCED` → `PLANNED` → `ACTIVE` → `VERIFIED` → `CLOSED`.
+4. **Deterministic Tracking**: Progress tracking is done via a fast TypeScript CLI—costing zero LLM tokens and eliminating AI hallucination.
+
 ## 🌟 Why Choose WLP? (The Killer Features)
 
 - **🔀 Parallel Agent Execution (Git Worktrees):** Run 5 AI agents simultaneously on 5 different features. WLP isolates them into separate `git worktrees`, preventing git conflicts and port collisions.
@@ -24,14 +31,14 @@ The era of "Vibe Coding" is over. When you let AI agents code without a strict p
 
 ## 🥊 Ecosystem Comparison
 
-WLP combines the strict orchestration of CCPM with the modular architecture of OpenSpec:
+WLP combines the strict orchestration of CCPM with the modular architecture of OpenSpec, and the spec-first mindset of GitHub Spec-Kit:
 
-| Feature | WLP | OpenSpec | CCPM | ECC |
-| :--- | :--- | :--- | :--- | :--- |
-| **Workflow Paradigm** | Strict Spec-Driven | Exploratory | Strict | Conversational |
-| **Parallel Execution** | Native (`git worktree`) | No | Native (`git worktree`) | No |
-| **GitHub Sync** | Auto (Zero-Config `gh`) | Manual | Manual | No |
-| **State Tracking** | CLI (Instant, 0 tokens) | Prompt-based | Prompt-based | Prompt-based |
+| Feature | WLP | OpenSpec | CCPM | Spec-Kit | ECC |
+| :--- | :--- | :--- | :--- | :--- | :--- |
+| **Workflow Paradigm** | Strict Spec-Driven | Exploratory | Strict | Spec-Driven | Conversational |
+| **Parallel Execution** | Native (`git worktree`) | No | Native (`git worktree`) | No | No |
+| **GitHub Sync** | Auto (Zero-Config `gh`) | Manual | Manual | Native (Cloud) | No |
+| **State Tracking** | CLI (Instant, 0 tokens) | Prompt-based | Prompt-based | Cloud Issues | Prompt-based |
 
 ## 🚀 Installation & Quick Start
 
