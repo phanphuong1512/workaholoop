@@ -1,4 +1,5 @@
 import { Command } from "commander";
+import { select } from "@inquirer/prompts";
 import pc from "picocolors";
 import fs from "fs";
 import path from "path";
@@ -13,14 +14,31 @@ export const initCommand = new Command("init")
   .description("Scaffolds wlp/ directory and generates .claude/commands")
   .option(
     "-h, --harness <name>",
-    "Which AI agent harness to configure for (claude, antigravity, opencode, all)",
-    "all",
+    "Which AI agent harness to configure for (claude, antigravity, opencode, all)"
   )
-  .action((options) => {
-    console.log(pc.blue("Initializing WLP..."));
-    console.log(pc.dim(`Target harness: ${options.harness}`));
+  .action(async (options) => {
+    let selectedHarness = options.harness;
 
-    const cwd = process.cwd();
+    if (!selectedHarness) {
+      selectedHarness = await select({
+        message: 'Which AI Agent Harness do you want to configure?',
+        choices: [
+          { name: '🤖 All (Installs configs for all supported agents)', value: 'all' },
+          { name: '🔵 Claude Code (.claude/commands/)', value: 'claude' },
+          { name: '🟢 Google Antigravity (Natural Language Intents)', value: 'antigravity' },
+          { name: '🟠 OpenCode (.opencode/commands/)', value: 'opencode' },
+        ],
+      });
+    }
+
+    initWorkspace(selectedHarness);
+  });
+
+function initWorkspace(harness: string) {
+  console.log(pc.blue("\nInitializing WLP..."));
+  console.log(pc.dim(`Target harness: ${harness}`));
+
+  const cwd = process.cwd();
 
     // 1. Detect project name
     let projectName = path.basename(cwd);
@@ -68,14 +86,14 @@ export const initCommand = new Command("init")
 
     // 5. Write slash commands via Adapters
     const adaptersToRun =
-      options.harness === "all"
+      harness === "all"
         ? ALL_ADAPTERS
-        : ALL_ADAPTERS.filter((a) => a.id === options.harness);
+        : ALL_ADAPTERS.filter((a) => a.id === harness);
 
     if (adaptersToRun.length === 0) {
       console.log(
         pc.yellow(
-          `⚠️ Unknown harness '${options.harness}'. Skipping slash commands.`,
+          `⚠️ Unknown harness '${harness}'. Skipping slash commands.`,
         ),
       );
     } else {
@@ -125,4 +143,4 @@ export const initCommand = new Command("init")
     console.log(pc.green("✓ Created Worktree Skill in wlp/skills/worktree/"));
 
     console.log(pc.cyan("\n✨ WLP initialized successfully!"));
-  });
+}
