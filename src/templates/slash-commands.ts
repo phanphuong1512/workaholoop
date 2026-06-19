@@ -74,9 +74,8 @@ Use this command when the user expresses intent to: finish, merge, or archive th
 
 ## INSTRUCTIONS
 1. Verify that all tasks are complete and verification has passed.
-2. Commit the changes, squash merge the branch.
-3. Move the change directory to \`wlp/changes/archive/\`.
-4. Close the associated GitHub issue if syncing is enabled.`,
+2. Run the command: \`npx wlp close <slug>\` to squash merge and archive the directory automatically. (Do NOT manually move the directory).
+3. Close the associated GitHub issue if syncing is enabled.`,
 
   'wlp/auto.md': `---
 name: WLP: Auto-Pilot
