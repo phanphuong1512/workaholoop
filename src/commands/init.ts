@@ -20,15 +20,24 @@ export const initCommand = new Command("init")
     let selectedHarness = options.harness;
 
     if (!selectedHarness) {
-      selectedHarness = await select({
-        message: 'Which AI Agent Harness do you want to configure?',
-        choices: [
-          { name: 'All (Installs configs for all supported agents)', value: 'all' },
-          { name: 'Claude Code (.claude/commands/)', value: 'claude' },
-          { name: 'Google Antigravity (Natural Language Intents)', value: 'antigravity' },
-          { name: 'OpenCode (.opencode/commands/)', value: 'opencode' },
-        ],
-      });
+      try {
+        selectedHarness = await select({
+          message: 'Which AI Agent Harness do you want to configure?',
+          choices: [
+            { name: 'All (Installs configs for all supported agents)', value: 'all' },
+            { name: 'Claude Code (.claude/commands/)', value: 'claude' },
+            { name: 'Google Antigravity (Natural Language Intents)', value: 'antigravity' },
+            { name: 'OpenCode (.opencode/commands/)', value: 'opencode' },
+          ],
+        });
+      } catch (err: any) {
+        if (err.name === 'ExitPromptError') {
+          console.log(pc.yellow('\n⚠ Initialization canceled.'));
+          process.exit(0);
+        } else {
+          throw err;
+        }
+      }
     }
 
     initWorkspace(selectedHarness);
