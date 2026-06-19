@@ -26,7 +26,7 @@ The era of "Vibe Coding" is over. When you let AI agents code without a strict p
 
 - **🔀 Parallel Agent Execution (Git Worktrees):** Run 5 AI agents simultaneously on 5 different features. WLP isolates them into separate `git worktrees`, preventing git conflicts and port collisions.
 - **🔄 Zero-Config GitHub Sync:** Bi-directionally sync active features with GitHub Issues. WLP securely and automatically uses your existing `gh auth token` under the hood. No manual setup required.
-- **🔌 Harness Agnostic:** A pluggable adapter architecture. Write specs once, execute them with Claude Code, Cursor, or Windsurf.
+- **🔌 Harness Agnostic:** A pluggable adapter architecture. Write specs once, execute them with Claude Code, Google Antigravity, Cursor, or Windsurf.
 - **⚡ 0-Token State Tracking:** Progress tracking, status summaries, and file validation are powered by a blazing-fast TypeScript CLI—costing you zero LLM tokens.
 
 ## 🥊 Ecosystem Comparison
@@ -52,13 +52,17 @@ Navigate to your project root and initialize the state machine:
 wlp init
 ```
 
-*This scaffolds the `wlp/` directory, injects the agent skills, and sets up your IDE harness commands.*
+*This scaffolds the `wlp/` directory, injects the agent skills, and sets up your IDE harness commands (e.g. for Claude Code or Antigravity).*
 
 **Your First Feature:**
-Open your AI agent (e.g., Claude Code) and propose a change:
-```text
-/wlp:propose "Add dark mode support to the dashboard"
-```
+- **For Claude Code:** Propose a change using the slash command:
+  ```text
+  /wlp:propose "Add dark mode support to the dashboard"
+  ```
+- **For Google Antigravity:** Use Natural Language (Intent Routing):
+  ```text
+  "Wlp propose a change to add dark mode support"
+  ```
 
 ## 🔄 The Spec-Driven Workflow
 

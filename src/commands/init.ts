@@ -11,7 +11,7 @@ import { ALL_ADAPTERS } from '../adapters/index.js';
 
 export const initCommand = new Command('init')
   .description('Scaffolds wlp/ directory and generates .claude/commands')
-  .option('--harness <name>', 'Specify target agent harness (claude, all)', 'claude')
+  .option('-h, --harness <name>', 'Which AI agent harness to configure for (claude, antigravity, all)', 'all')
   .action((options) => {
     console.log(pc.blue('Initializing WLP...'));
     console.log(pc.dim(`Target harness: ${options.harness}`));
