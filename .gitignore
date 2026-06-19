@@ -3,6 +3,7 @@ dist/
 .claude/
 wlp/
 .wlp-worktrees/
+wlp-worktrees/
 *.tgz
 .env
 .DS_Store
