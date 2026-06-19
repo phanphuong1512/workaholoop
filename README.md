@@ -3,8 +3,9 @@
   <p><strong>A Spec-Driven State Machine for AI Agents</strong></p>
   <p>Enforces structured coding workflows, parallel worktrees, and seamless GitHub sync for Agentic Software Engineering.</p>
 
-  [![npm version](https://badge.fury.io/js/@workaholoop%2Fcli.svg)](https://badge.fury.io/js/@workaholoop%2Fcli)
-  [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT)
+[![npm version](https://badge.fury.io/js/@workaholoop%2Fcli.svg)](https://badge.fury.io/js/@workaholoop%2Fcli)
+[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT)
+
 </div>
 
 <hr/>
@@ -26,36 +27,39 @@ The era of "Vibe Coding" is over. When you let AI agents code without a strict p
 
 - **🔀 Parallel Agent Execution (Git Worktrees):** Run 5 AI agents simultaneously on 5 different features. WLP isolates them into separate `git worktrees`, preventing git conflicts and port collisions.
 - **🔄 Zero-Config GitHub Sync:** Bi-directionally sync active features with GitHub Issues. WLP securely and automatically uses your existing `gh auth token` under the hood. No manual setup required.
-- **🔌 Harness Agnostic:** A pluggable adapter architecture. Write specs once, execute them with Claude Code, Google Antigravity, Cursor, or Windsurf.
+- **🔌 Harness Agnostic:** A pluggable adapter architecture. Write specs once, execute them with Claude Code, Google Antigravity, OpenCode, Cursor, or Windsurf.
 - **⚡ 0-Token State Tracking:** Progress tracking, status summaries, and file validation are powered by a blazing-fast TypeScript CLI—costing you zero LLM tokens.
 
 ## 🥊 Ecosystem Comparison
 
 WLP combines the strict orchestration of CCPM with the modular architecture of OpenSpec, and the spec-first mindset of GitHub Spec-Kit:
 
-| Feature | WLP | OpenSpec | CCPM | Spec-Kit | ECC |
-| :--- | :--- | :--- | :--- | :--- | :--- |
-| **Workflow Paradigm** | Strict Spec-Driven | Exploratory | Strict | Spec-Driven | Conversational |
-| **Parallel Execution** | Native (`git worktree`) | No | Native (`git worktree`) | No | No |
-| **GitHub Sync** | Auto (Zero-Config `gh`) | Manual | Manual | Native (Cloud) | No |
-| **State Tracking** | CLI (Instant, 0 tokens) | Prompt-based | Prompt-based | Cloud Issues | Prompt-based |
+| Feature                | WLP                     | OpenSpec     | CCPM                    | Spec-Kit       | ECC            |
+| :--------------------- | :---------------------- | :----------- | :---------------------- | :------------- | :------------- |
+| **Workflow Paradigm**  | Strict Spec-Driven      | Exploratory  | Strict                  | Spec-Driven    | Conversational |
+| **Parallel Execution** | Native (`git worktree`) | No           | Native (`git worktree`) | No             | No             |
+| **GitHub Sync**        | Auto (Zero-Config `gh`) | Manual       | Manual                  | Native (Cloud) | No             |
+| **State Tracking**     | CLI (Instant, 0 tokens) | Prompt-based | Prompt-based            | Cloud Issues   | Prompt-based   |
 
 ## 🚀 Installation & Quick Start
 
 Install the CLI globally:
+
 ```bash
 npm install -g @workaholoop/cli
 ```
 
 Navigate to your project root and initialize the state machine:
+
 ```bash
 wlp init
 ```
 
-*This scaffolds the `wlp/` directory, injects the agent skills, and sets up your IDE harness commands (e.g. for Claude Code or Antigravity).*
+_This scaffolds the `wlp/` directory, injects the agent skills, and sets up your IDE harness commands (e.g. for Claude Code, Antigravity, or OpenCode)._
 
 **Your First Feature:**
-- **For Claude Code:** Propose a change using the slash command:
+
+- **For Claude Code & OpenCode:** Propose a change using the slash command:
   ```text
   /wlp:propose "Add dark mode support to the dashboard"
   ```
@@ -82,7 +86,7 @@ graph TD
     Plan --> Execute
     Execute --> Verify
     Verify --> Close
-    
+
     style Propose fill:#1e1e1e,stroke:#fff,color:#fff
     style Spec fill:#1e1e1e,stroke:#fff,color:#fff
     style Plan fill:#1e1e1e,stroke:#fff,color:#fff
@@ -95,14 +99,14 @@ graph TD
 
 While the AI agent handles the code, the **Deterministic CLI** handles your project management:
 
-| Command | Description |
-| :--- | :--- |
-| `wlp init` | Scaffolds the workspace and installs harness adapters. |
-| `wlp status` | Prints a beautifully formatted table of all active changes and their phases. |
-| `wlp sync` | Zero-config bi-directional sync with GitHub Issues. |
-| `wlp standup` | Generates a daily progress summary by combining active tasks and git commits. |
-| `wlp validate` | Checks your `wlp/` directory for missing files or broken YAML frontmatter. |
-| `wlp search <query>` | Full-text search across all proposals and architectural specs. |
+| Command              | Description                                                                   |
+| :------------------- | :---------------------------------------------------------------------------- |
+| `wlp init`           | Scaffolds the workspace and installs harness adapters.                        |
+| `wlp status`         | Prints a beautifully formatted table of all active changes and their phases.  |
+| `wlp sync`           | Zero-config bi-directional sync with GitHub Issues.                           |
+| `wlp standup`        | Generates a daily progress summary by combining active tasks and git commits. |
+| `wlp validate`       | Checks your `wlp/` directory for missing files or broken YAML frontmatter.    |
+| `wlp search <query>` | Full-text search across all proposals and architectural specs.                |
 
 ## 📁 Directory Architecture
 
@@ -114,9 +118,9 @@ my-project/
 │   ├── changes/
 │   │   ├── active/               # Features currently in development
 │   │   │   └── add-dark-mode/
-│   │   │       ├── proposal.md   
-│   │   │       ├── specs/        
-│   │   │       ├── design.md     
+│   │   │       ├── proposal.md
+│   │   │       ├── specs/
+│   │   │       ├── design.md
 │   │   │       └── tasks.md      # The Execution Checklist
 │   │   └── archive/              # Completed and squashed features
 │   └── skills/                   # Agent behavioral instructions
