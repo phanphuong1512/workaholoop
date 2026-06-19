@@ -24,10 +24,26 @@ export const initCommand = new Command("init")
         selectedHarness = await select({
           message: 'Which AI Agent Harness do you want to configure?',
           choices: [
-            { name: 'All (Installs configs for all supported agents)', value: 'all' },
-            { name: 'Claude Code (.claude/commands/)', value: 'claude' },
-            { name: 'Google Antigravity (Natural Language Intents)', value: 'antigravity' },
-            { name: 'OpenCode (.opencode/commands/)', value: 'opencode' },
+            { 
+              name: 'All', 
+              value: 'all',
+              description: 'Installs configurations for all supported AI agents'
+            },
+            { 
+              name: 'Claude Code', 
+              value: 'claude',
+              description: 'Generates slash commands in .claude/commands/'
+            },
+            { 
+              name: 'Google Antigravity', 
+              value: 'antigravity',
+              description: 'Configures Natural Language Intent Routing'
+            },
+            { 
+              name: 'OpenCode', 
+              value: 'opencode',
+              description: 'Generates slash commands in .opencode/commands/'
+            },
           ],
         });
       } catch (err: any) {
