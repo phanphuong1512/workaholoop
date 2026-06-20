@@ -41,6 +41,11 @@ export const initCommand = new Command("init")
               description: 'Configures Natural Language Intent Routing'
             },
             { 
+              name: 'GitHub Copilot VSCode', 
+              value: 'copilot',
+              description: 'Configures skills for Copilot VSCode in .agents/skills/'
+            },
+            { 
               name: 'OpenCode', 
               value: 'opencode',
               description: 'Generates slash commands in .opencode/commands/'
