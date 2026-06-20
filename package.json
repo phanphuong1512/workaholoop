@@ -1,6 +1,6 @@
 {
   "name": "@workaholoop/cli",
-  "version": "3.0.0",
+  "version": "0.3.0",
   "description": "A Spec-Driven State Machine for AI Agents. Enforces structured workflows, parallel worktrees, and zero-config GitHub sync.",
   "main": "dist/cli.js",
   "files": [
