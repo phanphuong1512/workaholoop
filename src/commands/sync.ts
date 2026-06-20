@@ -36,9 +36,33 @@ export const syncCommand = new Command('sync')
 
     let owner = '', repo = '';
     try {
-      const gitConfig = fs.readFileSync(path.join(cwd, '.git/config'), 'utf-8');
-      const match = gitConfig.match(/github\.com[:/]([^/]+)\/([^.]+)\.git/);
-      if (match) { owner = match[1]; repo = match[2]; }
+      let remoteUrl = '';
+      try {
+        remoteUrl = execSync('git remote get-url origin', { stdio: ['pipe', 'pipe', 'pipe'], encoding: 'utf-8' }).trim();
+      } catch (e) {
+        const gitConfigPath = path.join(cwd, '.git/config');
+        if (fs.existsSync(gitConfigPath)) {
+          const gitConfig = fs.readFileSync(gitConfigPath, 'utf-8');
+          const lines = gitConfig.split('\n');
+          for (const line of lines) {
+            if (line.includes('url =')) {
+              remoteUrl = line.split('url =')[1].trim();
+              break;
+            }
+          }
+        }
+      }
+
+      if (remoteUrl) {
+        const match = remoteUrl.match(/github\.com[:/]([^/]+)\/([^/]+)/);
+        if (match) {
+          owner = match[1];
+          repo = match[2];
+          if (repo.endsWith('.git')) {
+            repo = repo.slice(0, -4);
+          }
+        }
+      }
     } catch (e) {}
 
     if (!owner || !repo) {

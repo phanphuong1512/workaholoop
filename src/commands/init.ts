@@ -3,6 +3,7 @@ import { select } from "@inquirer/prompts";
 import pc from "picocolors";
 import fs from "fs";
 import path from "path";
+import { execSync } from "child_process";
 import { constitutionTemplate } from "../templates/constitution.js";
 import { configTemplate } from "../templates/config.js";
 import { slashCommands } from "../templates/slash-commands.js";
@@ -64,6 +65,17 @@ function initWorkspace(harness: string) {
   console.log(pc.dim(`Target harness: ${harness}`));
 
   const cwd = process.cwd();
+
+  // 0. Detect and initialize git if missing
+  if (!fs.existsSync(path.join(cwd, '.git'))) {
+    console.log(pc.yellow('! Git repository not detected. Initializing git...'));
+    try {
+      execSync('git init', { stdio: 'inherit' });
+      console.log(pc.green('+ Initialized empty Git repository.'));
+    } catch (e: any) {
+      console.log(pc.red(`! Failed to initialize Git repository: ${e.message}`));
+    }
+  }
 
     // 1. Detect project name
     let projectName = path.basename(cwd);
@@ -147,6 +159,7 @@ function initWorkspace(harness: string) {
       "propose.md": skills.proposeMd,
       "spec.md": skills.specMd,
       "execute.md": skills.executeMd,
+      "verify.md": skills.verifyMd,
       "converge.md": skills.convergeMd,
       "conventions.md": skills.conventionsMd,
     };
