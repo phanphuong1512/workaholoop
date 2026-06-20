@@ -10,7 +10,7 @@
 <p align="center">
     <a href="https://github.com/workaholoop/wlp"><img src="https://img.shields.io/npm/v/@workaholoop/cli?color=blue&label=version" alt="Latest Release"/></a>
     <a href="https://github.com/workaholoop/wlp/blob/main/LICENSE"><img src="https://img.shields.io/github/license/workaholoop/wlp" alt="License"/></a>
-    <a href="https://nodejs.org"><img src="https://img.shields.io/badge/node-%3E%3D18.0.0-brightgreen" alt="Node.js Version"/></a>
+    <a href="https://nodejs.org"><img src="https://img.shields.io/badge/node-%3E%3D22.0.0-brightgreen" alt="Node.js Version"/></a>
 </p>
 
 ---
@@ -51,7 +51,7 @@ WLP V3 introduces four enterprise-grade capabilities inspired by the world's mos
 ## Quick Start
 
 ### 1. Prerequisites
-- **Node.js** v18+
+- **Node.js** v22+ (LTS)
 - **Git** (for Worktree orchestration)
 - **GitHub CLI (`gh`)** (for automated PR and Issue synchronization)
 
