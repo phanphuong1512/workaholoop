@@ -1,5 +1,5 @@
 <div align="center">
-    <h1>🔄 WORKAHOLOOP (WLP)</h1>
+    <h1>[ WORKAHOLOOP (WLP) ]</h1>
     <h3><em>The Loop Engineer — Spec-Driven Auto-Loop Architecture</em></h3>
 </div>
 
@@ -15,40 +15,40 @@
 
 ---
 
-## 📖 Table of Contents
+## Table of Contents
 
-- [🤔 What is Workaholoop?](#-what-is-workaholoop)
-- [✨ Core Philosophy & V3 Features](#-core-philosophy--v3-features)
-- [⚡ Quick Start](#-quick-start)
-- [🔄 The 4-Step Auto-Loop](#-the-4-step-auto-loop)
-- [🗂️ Workspace Architecture](#️-workspace-architecture)
-- [🧠 Advanced: Learned Memory](#-advanced-learned-memory)
-- [🛡️ Advanced: Anti-Conflict Spec](#️-advanced-anti-conflict-spec)
-- [🤝 Contributing](#-contributing)
-- [📄 License](#-license)
+- [What is Workaholoop?](#what-is-workaholoop)
+- [Core Philosophy & V3 Features](#core-philosophy--v3-features)
+- [Quick Start](#quick-start)
+- [The 4-Step Auto-Loop](#the-4-step-auto-loop)
+- [Workspace Architecture](#workspace-architecture)
+- [Advanced: Learned Memory](#advanced-learned-memory)
+- [Advanced: Anti-Conflict Spec](#advanced-anti-conflict-spec)
+- [Contributing](#contributing)
+- [License](#license)
 
 ---
 
-## 🤔 What is Workaholoop?
+## What is Workaholoop?
 
-**Workaholoop (WLP)** flips the script on traditional AI development. Instead of "vibe coding" where an AI writes unmanageable spaghetti code in a single prompt, WLP introduces **The Loop Engineer** architecture.
+**Workaholoop** (a portmanteau of *"Workaholic"* and *"Loop"*) flips the script on traditional AI development. Instead of "vibe coding" where an AI writes unmanageable spaghetti code in a single prompt, WLP introduces **The Loop Engineer** architecture.
 
 By integrating the rigorous architectural planning of [OpenSpec](https://github.com/Fission-AI/OpenSpec) with the blazing-fast parallel execution of [CCPM](https://github.com/automazeio/ccpm), WLP forces your AI to act as a **Product Manager, Architect, and a team of Parallel Developers** all working in absolute harmony through Git Worktrees.
 
 ---
 
-## ✨ Core Philosophy & V3 Features
+## Core Philosophy & V3 Features
 
 WLP V3 introduces four enterprise-grade capabilities inspired by the world's most advanced Agent OS frameworks:
 
-1. **🎭 Party Mode (Simulated Council):** WLP does not blindly agree with your feature requests. In the Propose phase, it simulates a rigorous debate between a Product Manager (focusing on UX), a Security Expert (focusing on edge cases), and a Tech Lead (focusing on performance). Your requirements must survive this council before any spec is written.
-2. **⚖️ Adaptive Depth & Anti-Conflict:** Not all features require massive architectural documents. WLP adapts: trivial bug fixes get a fast-track task, while enterprise features generate a rigid `design.md`. Crucially, its **Anti-Conflict Logic** analyzes file overlap and explicitly disables parallel execution if two tasks touch the same file.
-3. **🧠 Continuous Learning (Learned Memory):** Agents shouldn't make the same mistake twice. WLP features a global `learned.md` ledger. Subagents read this before coding, and append new lessons learned after successfully fixing bugs.
-4. **🔗 Brownfield Converge:** Need to jump in and code manually? Go ahead. WLP provides a `converge` command that scans your actual codebase, reconciles it against the AI's Epic tracker, and automatically closes completed tasks or generates new ones to fill the gaps.
+1. **Party Mode (Simulated Council):** WLP does not blindly agree with your feature requests. In the Propose phase, it simulates a rigorous debate between a Product Manager (focusing on UX), a Security Expert (focusing on edge cases), and a Tech Lead (focusing on performance). Your requirements must survive this council before any spec is written.
+2. **Adaptive Depth & Anti-Conflict:** Not all features require massive architectural documents. WLP adapts: trivial bug fixes get a fast-track task, while enterprise features generate a rigid `design.md`. Crucially, its **Anti-Conflict Logic** analyzes file overlap and explicitly disables parallel execution if two tasks touch the same file.
+3. **Continuous Learning (Learned Memory):** Agents shouldn't make the same mistake twice. WLP features a global `learned.md` ledger. Subagents read this before coding, and append new lessons learned after successfully fixing bugs.
+4. **Brownfield Converge:** Need to jump in and code manually? Go ahead. WLP provides a `converge` command that scans your actual codebase, reconciles it against the AI's Epic tracker, and automatically closes completed tasks or generates new ones to fill the gaps.
 
 ---
 
-## ⚡ Quick Start
+## Quick Start
 
 ### 1. Prerequisites
 - **Node.js** v18+
@@ -74,7 +74,7 @@ wlp init --harness all
 
 ---
 
-## 🔄 The 4-Step Auto-Loop
+## The 4-Step Auto-Loop
 
 WLP enforces a strict, four-phase lifecycle. You can trigger these via Slash Commands in your AI IDE, or simply by stating your intent in natural language.
 
@@ -99,7 +99,7 @@ Re-assesses the actual codebase against the Epic. If you manually fixed somethin
 
 ---
 
-## 🗂️ Workspace Architecture
+## Workspace Architecture
 
 When you run `wlp init`, the following structure is injected into your repository. These artifacts serve as the "Source of Truth" for your autonomous agents.
 
@@ -121,7 +121,7 @@ When you run `wlp init`, the following structure is injected into your repositor
 
 ---
 
-## 🧠 Advanced: Learned Memory
+## Advanced: Learned Memory
 
 WLP implements a lightweight but highly effective **Continuous Learning** cycle inspired by the *Extreme Code Correction (ECC)* framework. 
 
@@ -129,7 +129,7 @@ Every time a parallel Subagent executes a task in `/wlp:execute`, it is injected
 
 ---
 
-## 🛡️ Advanced: Anti-Conflict Spec
+## Advanced: Anti-Conflict Spec
 
 A major danger of parallel AI execution is race conditions—two agents attempting to modify `src/cli.ts` simultaneously, resulting in Git merge conflicts.
 
@@ -143,7 +143,7 @@ Only strictly orthogonal tasks (e.g., updating a Database schema and writing CSS
 
 ---
 
-## 🤝 Contributing
+## Contributing
 
 We welcome contributions! Spec-Driven Development is an evolving paradigm, and we are constantly looking to improve our prompts, adapters, and CLI tooling.
 
@@ -153,6 +153,6 @@ We welcome contributions! Spec-Driven Development is an evolving paradigm, and w
 4. Push to the branch (`git push origin feature/amazing-feature`)
 5. Open a Pull Request
 
-## 📄 License
+## License
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
