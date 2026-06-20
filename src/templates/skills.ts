@@ -1,175 +1,134 @@
 export const skillMd = `---
 name: wlp
-description: Spec-Driven State Machine workflow for disciplined agent development
-version: 1.0.0
+description: CCPM-style spec-driven workflow: PRD -> Epic -> GitHub Issues -> Parallel Agents
+version: 2.0.0
 ---
 
-# WORKAHOLOOP (WLP) — Core Skill
-
-## When to Activate
-Activate this skill when the user expresses intent to:
-- Start a new feature, fix, or change
-- Define requirements or specifications
-- Plan technical implementation  
-- Track progress across tasks
-- Verify code quality
-- Manage project status
+# WORKAHOLOOP (WLP) — CCPM Architecture
 
 ## Intent Routing
 
 | User Intent | Command | Reference |
 |---|---|---|
-| "build/add/create/implement..." | /wlp:propose | → references/propose.md |
-| "spec/requirements/criteria..." | /wlp:spec | → references/spec.md |
-| "design/plan/architect..."     | /wlp:plan | → references/plan.md |
-| "code/execute/implement..."    | /wlp:execute | → references/execute.md |
-| "test/verify/check..."         | /wlp:verify | → references/verify.md |
-| "done/close/merge/archive..."  | /wlp:close | → references/close.md |
-| "auto/chain/end-to-end..."     | /wlp:auto | → references/auto.md |
-| "status/standup/progress..."   | Tell user to run \`wlp status\` or \`wlp standup\` in terminal | — |
+| "write a PRD", "plan feature X" | /wlp:plan | → references/plan.md |
+| "turn PRD into epic", "break down epic" | /wlp:structure | → references/structure.md |
+| "push to github", "sync epic" | /wlp:sync | → references/sync.md |
+| "start working on issue", "execute" | /wlp:execute | → references/execute.md |
+| "status", "standup" | /wlp:track | → references/track.md |
 
 ## Context Loading
-Before executing any command, ALWAYS load:
-1. \`wlp/constitution.md\` — project rules (ALWAYS)
-2. \`wlp/config.json\` — project config (ALWAYS)  
-3. \`wlp/changes/active/<current-change>/\` — active change context (if exists)
+Always load:
+1. \`wlp/constitution.md\`
+2. \`wlp/config.json\`
+3. \`wlp/epics/<current-epic>/\` (if working on an epic)
 `;
 
-export const proposeMd = `# Proposal Creation (/wlp:propose)
+export const planMd = `# Plan (/wlp:plan)
 
-**Goal:** Define the high-level "Why" and "What" of a change.
+**Goal:** Capture requirements into a PRD.
 
 ## Instructions
-1. Create a directory for this change: \`wlp/changes/active/<slug>/\`. The slug should be a short, kebab-case identifier (e.g., \`add-dark-mode\`).
-2. Inside that directory, create \`proposal.md\`.
-3. The proposal MUST include YAML frontmatter matching \`references/conventions.md\`.
-4. The proposal MUST contain:
-   - **Problem Statement:** What are we trying to solve?
-   - **Scope:** What is included and what is excluded?
-   - **Success Criteria:** How do we know it works?
-
-## Output
-\`wlp/changes/active/<slug>/proposal.md\`
+1. Create a PRD file: \`wlp/prds/<name>.md\`.
+2. Include problem statement, target audience, scope, and non-goals.
+3. Keep it strictly focused on product requirements, not technical architecture.
 `;
 
-export const specMd = `# Spec Creation (/wlp:spec)
+export const structureMd = `# Structure (/wlp:structure)
 
-**Goal:** Translate the proposal into detailed technical requirements and acceptance criteria.
-
-## 🚨 RESEARCH-FIRST INSTINCT
-You MUST read existing, relevant code in the workspace BEFORE writing the spec. You cannot write a spec in a vacuum. Understand the current architecture, data models, and related components first.
+**Goal:** Translate PRD into a Technical Epic and decompose into tasks.
 
 ## Instructions
-1. Read the \`proposal.md\` for the active change.
-2. Create a \`specs/\` directory inside the active change folder.
-3. Write \`specs/main.md\` (or split into multiple files if complex).
-4. The spec MUST contain:
-   - **Acceptance Criteria:** A bulleted list of verifiable behaviors.
-   - **Edge Cases:** What could go wrong and how to handle it.
-   - **Data Shapes:** Interfaces, schemas, or models (if applicable).
-5. Update \`proposal.md\` frontmatter to \`status: specced\`.
+1. Create \`wlp/epics/<name>/epic.md\` referencing the PRD.
+2. Decompose the work into independent tasks: \`wlp/epics/<name>/001.md\`, \`002.md\`, etc.
+3. Task files must contain \`depends_on\` and \`parallel\` frontmatter to allow parallel execution.
 `;
 
-export const planMd = `# Implementation Plan Creation (/wlp:plan)
+export const executeMd = `# Execute (/wlp:execute)
 
-**Goal:** Architect the solution and break it down into executable tasks.
+**Goal:** Start building using parallel agents and git worktrees.
+
+## 🚨 WORKTREE COORDINATION RULES
+- **DO NOT create symlinks for state.**
+- You must operate from the main repository root where \`wlp/\` exists.
+- Create the git worktree: \`git worktree add ../.wlp-worktrees/<name> -b epic/<name>\`
+- When modifying code, use the relative path to the worktree: \`../.wlp-worktrees/<name>/path/to/code\`
+- This ensures you can read \`wlp/epics/\` locally while writing code into the isolated worktree.
 
 ## Instructions
-1. Read the \`specs/\` for the active change.
-2. Create \`design.md\` in the active change folder. It MUST contain:
-   - **Architecture:** High-level approach.
-   - **File Changes:** Which existing files will be modified, and which new files will be created.
-   - **Dependencies:** Any new npm packages or external APIs needed.
-3. Create \`tasks.md\` in the active change folder. It MUST include YAML frontmatter tracking the number of tasks.
-4. The \`tasks.md\` MUST be a markdown checklist (\`- [ ]\`) broken down into logical phases.
-5. Update \`proposal.md\` and \`tasks.md\` frontmatter to \`status: planned\`.
+1. Read the task file: \`wlp/epics/<epic>/<N>.md\`.
+2. Implement the changes in \`../.wlp-worktrees/<epic>/\`.
+3. Commit frequently inside the worktree: \`cd ../.wlp-worktrees/<epic> && git commit -m "Issue #<N>: ..."\`
+4. Update the task frontmatter to \`status: closed\` when done.
 `;
 
-export const executeMd = `# Execution (/wlp:execute)
+export const syncMd = `# Sync (/wlp:sync)
 
-**Goal:** Write the code to fulfill the plan.
+**Goal:** Push tasks to GitHub Issues and Epics.
 
 ## Instructions
-1. Read \`tasks.md\` to find the next pending task.
-2. DO NOT implement everything at once. Focus on one task or phase at a time.
-3. Write the necessary code.
-4. Check off the task in \`tasks.md\` (\`- [x]\`) and update the \`completed\` counter in the frontmatter.
-5. Update \`tasks.md\` frontmatter to \`status: active\`.
-6. Repeat until all tasks are complete.
+1. Tell the user to run \`npx wlp sync\` in their terminal.
+2. The CLI will handle creating issues, attaching labels, and renaming \`001.md\` to \`<IssueNumber>.md\`.
 `;
 
-export const verifyMd = `# Verification (/wlp:verify)
+export const verifyMd = `# Verify (/wlp:verify)
 
-**Goal:** Ensure the code meets quality standards and specs before closing.
+**Goal:** Run tests inside the worktree.
 
 ## Instructions
-1. Read the \`verify\` commands from \`wlp/config.json\` (e.g., lint, test, typecheck).
-2. Execute these commands in the terminal.
-3. If ANY command fails:
-   - Read the error.
-   - Fix the code.
-   - Run the command again.
-4. If ALL commands pass, update \`tasks.md\` frontmatter to \`status: verified\`.
-5. You CANNOT proceed to close until status is verified.
+1. \`cd ../.wlp-worktrees/<epic>\`
+2. Run \`npm run test\`, \`npm run lint\`.
 `;
 
-export const closeMd = `# Close Change (/wlp:close)
+export const trackMd = `# Track (/wlp:track)
 
-**Goal:** Finalize the change, clean up the workspace, and integrate.
+**Goal:** Check status.
 
 ## Instructions
-1. Ensure the change has \`status: verified\`. If not, refuse to close and tell the user to run \`/wlp:verify\`.
-2. Generate a Semantic Commit message based on the work done (e.g., \`feat: add dark mode\`).
-3. Commit the changes. (If using branches, squash merge).
-4. Run \`wlp sync\` to sync the final state to GitHub Issues (if configured).
-5. Move the entire \`wlp/changes/active/<slug>\` folder to \`wlp/changes/archive/YYYY-MM-DD-<slug>\`.
+1. Run \`npx wlp status\` or \`npx wlp standup\`.
+2. Parse the output for the user.
 `;
 
-export const conventionsMd = `# WLP Conventions
+export const closeMd = `# Close (/wlp:close)
 
-## Frontmatter Schemas
+**Goal:** Archive the epic and prepare for PR.
 
-### proposal.md
+## Instructions
+1. Ensure all tasks in \`wlp/epics/<name>/\` are \`status: closed\`.
+2. Run \`npx wlp close <name>\`.
+3. Remind the user to open a Pull Request on GitHub for branch \`epic/<name>\`.
+`;
+
+export const conventionsMd = `# Conventions
+
+## PRD (\`wlp/prds/<name>.md\`)
 \`\`\`yaml
 ---
-slug: string
-status: proposed | specced | planned | active | verified | closed
-created: YYYY-MM-DD
-author: string
-github_issue: number | null
-priority: low | medium | high | critical
-tags: string[]
+name: <feature>
+status: backlog | active | completed
+created: <datetime>
 ---
 \`\`\`
 
-### tasks.md
+## Epic (\`wlp/epics/<name>/epic.md\`)
 \`\`\`yaml
 ---
-slug: string
-status: planned | active | verified | closed
-total_tasks: number
-completed: number
+name: <feature>
+status: backlog | in-progress | completed
+github: url
 ---
 \`\`\`
 
-## Strict Workflow Rules
-- Code MUST NOT be written until \`tasks.md\` exists.
-- A change MUST NOT be closed until verification commands pass.
-- Changes in \`archive/\` are read-only and serve as project history.
-
-## Command Chaining Protocol (Native Auto-Pilot)
-- If the user provides multiple slash commands in a single prompt (e.g., \`/wlp:propose, then /wlp:spec\`), you MUST execute them strictly in sequence.
-- You must complete all outputs and status updates for the first command before executing the next.
-- Do not stop for human review between chained commands; proceed continuously until the final command in the chain is executed.
+## Task (\`wlp/epics/<name>/<N>.md\`)
+\`\`\`yaml
+---
+name: <task>
+status: open | in-progress | closed
+depends_on: []
+parallel: true
+---
+\`\`\`
 `;
 
 export const autoMd = `# Auto-Pilot (/wlp:auto)
-
-**Goal:** Run the full WLP lifecycle sequentially without human intervention.
-
-## Instructions
-1. Execute the entire WLP State Machine sequentially for the user's request.
-2. Flow: Propose -> Spec -> Plan -> Execute -> Verify -> Close.
-3. You MUST complete one phase, update the status frontmatter, and immediately proceed to the next phase.
-4. Do NOT stop for human review unless you encounter a critical failure you cannot self-heal.
+Run Plan -> Structure -> Execute -> Close sequentially.
 `;

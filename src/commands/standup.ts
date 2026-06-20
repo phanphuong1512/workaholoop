@@ -11,30 +11,33 @@ export const standupCommand = new Command('standup')
     console.log(pc.blue(pc.bold('\n🌅 Daily Standup Summary\n')));
 
     // 1. Show active work
-    const activeDir = path.join(process.cwd(), 'wlp/changes/active');
-    let activeChanges: string[] = [];
-    if (fs.existsSync(activeDir)) {
-      activeChanges = fs.readdirSync(activeDir, { withFileTypes: true })
-        .filter(dirent => dirent.isDirectory())
+    const epicsDir = path.join(process.cwd(), 'wlp/epics');
+    let activeEpics: string[] = [];
+    if (fs.existsSync(epicsDir)) {
+      activeEpics = fs.readdirSync(epicsDir, { withFileTypes: true })
+        .filter(dirent => dirent.isDirectory() && dirent.name !== 'archived')
         .map(dirent => dirent.name);
     }
 
-    if (activeChanges.length > 0) {
-      console.log(pc.bold('🚧 Currently Active:'));
-      activeChanges.forEach(slug => {
-        const tasksPath = path.join(activeDir, slug, 'tasks.md');
+    if (activeEpics.length > 0) {
+      console.log(pc.bold('🚧 Currently Active Epics:'));
+      activeEpics.forEach(slug => {
+        const epicPath = path.join(epicsDir, slug, 'epic.md');
         let status = 'unknown';
-        if (fs.existsSync(tasksPath)) {
-          const parsed = matter(fs.readFileSync(tasksPath, 'utf-8'));
-          if (parsed.data.status) status = parsed.data.status;
-        } else {
-          const proposalPath = path.join(activeDir, slug, 'proposal.md');
-          if (fs.existsSync(proposalPath)) {
-             const parsed = matter(fs.readFileSync(proposalPath, 'utf-8'));
-             if (parsed.data.status) status = parsed.data.status;
-          }
+        if (fs.existsSync(epicPath)) {
+           const parsed = matter(fs.readFileSync(epicPath, 'utf-8'));
+           if (parsed.data.status) status = parsed.data.status;
         }
         console.log(`  - ${slug} [${pc.yellow(status.toUpperCase())}]`);
+        
+        // Show in-progress tasks
+        const tasks = fs.readdirSync(path.join(epicsDir, slug)).filter(f => /^\d+\.md$/.test(f));
+        tasks.forEach(file => {
+           const parsed = matter(fs.readFileSync(path.join(epicsDir, slug, file), 'utf-8'));
+           if (parsed.data.status === 'in-progress' || parsed.data.status === 'active') {
+              console.log(`    ↳ Task ${file}: ${parsed.data.name || 'Untitled'}`);
+           }
+        });
       });
       console.log('');
     } else {
@@ -44,7 +47,6 @@ export const standupCommand = new Command('standup')
     // 2. Show recent commits
     console.log(pc.bold('📦 Recent Commits (Last 24h):'));
     try {
-      // Check if git is initialized
       if (!fs.existsSync(path.join(process.cwd(), '.git'))) {
         console.log(pc.gray('  (Not a git repository)'));
       } else {

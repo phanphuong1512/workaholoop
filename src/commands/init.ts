@@ -80,8 +80,9 @@ function initWorkspace(harness: string) {
 
     // 2. Create base directories
     const dirs = [
-      "wlp/changes/active",
-      "wlp/changes/archive",
+      "wlp/prds",
+      "wlp/epics",
+      "wlp/archived",
       "wlp/skills/core/references",
     ];
 
@@ -134,11 +135,12 @@ function initWorkspace(harness: string) {
     }
 
     const refs = {
-      "propose.md": skills.proposeMd,
-      "spec.md": skills.specMd,
       "plan.md": skills.planMd,
+      "structure.md": skills.structureMd,
       "execute.md": skills.executeMd,
+      "sync.md": skills.syncMd,
       "verify.md": skills.verifyMd,
+      "track.md": skills.trackMd,
       "close.md": skills.closeMd,
       "auto.md": skills.autoMd,
       "conventions.md": skills.conventionsMd,

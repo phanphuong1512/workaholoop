@@ -3,57 +3,57 @@ import pc from 'picocolors';
 import fs from 'fs';
 import path from 'path';
 import matter from 'gray-matter';
-import { execSync } from 'child_process';
 
 export const closeCommand = new Command('close')
-  .description('Squash merge, archive the change, and close issue')
-  .argument('<slug>', 'The change slug to close')
+  .description('Archive the epic and prompt user to open PR')
+  .argument('<slug>', 'The epic slug to close')
   .action((slug) => {
-    console.log(pc.blue(pc.bold(`\n📦 Closing change: ${slug}\n`)));
+    console.log(pc.blue(pc.bold(`\n📦 Closing epic: ${slug}\n`)));
     const cwd = process.cwd();
-    const activeDir = path.join(cwd, 'wlp/changes/active', slug);
-    const archiveBase = path.join(cwd, 'wlp/changes/archive');
+    const activeDir = path.join(cwd, 'wlp/epics', slug);
+    const archiveBase = path.join(cwd, 'wlp/archived');
 
     if (!fs.existsSync(activeDir)) {
-      console.log(pc.red(`✗ Change '${slug}' not found in active directory.`));
+      console.log(pc.red(`✗ Epic '${slug}' not found in active directory.`));
       process.exit(1);
     }
 
-    // 1. Verify it's verified
-    const tasksPath = path.join(activeDir, 'tasks.md');
-    let status = '';
-    if (fs.existsSync(tasksPath)) {
-       const parsed = matter(fs.readFileSync(tasksPath, 'utf-8'));
-       status = parsed.data.status;
-    } else {
-       const proposalPath = path.join(activeDir, 'proposal.md');
-       if (fs.existsSync(proposalPath)) {
-         status = matter(fs.readFileSync(proposalPath, 'utf-8')).data.status;
-       }
-    }
-
-    if (status !== 'verified') {
-      console.log(pc.yellow(`⚠️ Status is '${status}', not 'verified'. Ensure /wlp:verify passes before closing.`));
-      console.log(pc.gray('Bypass this locally if testing.'));
-    }
-
-    // 2. Git merge --squash
-    try {
-      if (fs.existsSync(path.join(cwd, '.git'))) {
-         // This is a naive implementation assuming we are on the branch
-         // Real world would detect branch name, checkout main, git merge --squash branch
-         console.log(pc.gray('Running: git add . && git commit -m "feat: ' + slug + '"'));
-         execSync('git add .', { stdio: 'inherit' });
-         // We wrap commit in try catch in case there's nothing to commit
-         try {
-           execSync(`git commit -m "feat(${slug}): closed via wlp"`, { stdio: 'inherit' });
-           console.log(pc.green('✓ Changes committed (squash semantics assumed).'));
-         } catch (e) {
-           console.log(pc.yellow('  (Nothing to commit)'));
-         }
+    // 1. Verify all tasks are closed
+    const taskFiles = fs.readdirSync(activeDir).filter(f => /^\d+\.md$/.test(f));
+    let allClosed = true;
+    for (const file of taskFiles) {
+      const taskPath = path.join(activeDir, file);
+      const parsed = matter(fs.readFileSync(taskPath, 'utf-8'));
+      if (parsed.data.status !== 'closed') {
+        allClosed = false;
+        console.log(pc.yellow(`⚠️ Task ${file} is still '${parsed.data.status}'.`));
       }
-    } catch (e) {
-      console.log(pc.red('✗ Git operations failed.'));
+    }
+
+    if (!allClosed && taskFiles.length > 0) {
+       console.log(pc.yellow(`\n⚠️ Not all tasks are closed. Ensure all tasks are completed before archiving.`));
+       console.log(pc.gray('Bypass this locally if testing by renaming manually.'));
+    }
+
+    // 2. Push and Create Pull Request
+    const worktreePath = path.join(cwd, '..', '.wlp-worktrees', slug);
+    if (fs.existsSync(worktreePath) && fs.existsSync(path.join(worktreePath, '.git'))) {
+      try {
+        console.log(pc.gray(`\nPushing branch and creating Pull Request...`));
+        // Push branch
+        execSync(`git -C ${worktreePath} push -u origin epic/${slug}`, { stdio: 'inherit' });
+        
+        // Create PR using gh CLI
+        const title = `Epic: ${slug}`;
+        const body = `Automated PR for Epic ${slug}.\n\nCloses epic locally.`;
+        execSync(`gh pr create --title "${title}" --body "${body}"`, { cwd: worktreePath, stdio: 'inherit' });
+        
+        console.log(pc.green(`✓ Pull Request created successfully.`));
+      } catch (e: any) {
+        console.log(pc.yellow(`⚠️ Failed to automatically create PR. You may need to push and create it manually.`));
+      }
+    } else {
+      console.log(pc.yellow(`⚠️ Worktree not found at ${worktreePath}. Skipping auto-PR creation.`));
     }
 
     // 3. Move to archive
@@ -63,7 +63,8 @@ export const closeCommand = new Command('close')
     const dateStr = new Date().toISOString().split('T')[0];
     const archiveDir = path.join(archiveBase, `${dateStr}-${slug}`);
     fs.renameSync(activeDir, archiveDir);
-    console.log(pc.green(`✓ Moved to ${archiveDir}`));
+    console.log(pc.green(`✓ Moved state to ${archiveDir}`));
 
-    console.log(pc.cyan('\n✨ Change successfully closed!'));
+    console.log(pc.cyan('\n✨ Epic successfully archived locally!'));
+    console.log(pc.gray('Review the PR on GitHub and merge it when ready.'));
   });

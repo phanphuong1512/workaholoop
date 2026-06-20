@@ -1,20 +1,16 @@
 ---
 name: "wlp:execute"
-description: "Execute tasks and write code"
+description: "Build the feature in a worktree"
 ---
 
 ---
 name: WLP: Execute
-description: Execute tasks and write code
+description: Build the feature in a worktree
 ---
 # /wlp:execute
-
-Use this command when the user expresses intent to: start coding, execute the plan, or implement tasks.
-
-## INSTRUCTIONS
-1. Create a new git branch (or worktree if enabled).
-2. Execute tasks one by one from `tasks.md`.
-3. Mark tasks as completed in `tasks.md` as you go.
+1. Stay in root directory.
+2. Read tasks from `wlp/epics/`.
+3. Create/edit code in `../.wlp-worktrees/<name>/`.
 
 ***
 **WLP CORE REQUIREMENT:** 

@@ -25,42 +25,42 @@ export const validateCommand = new Command('validate')
     checkFile('wlp/constitution.md');
     console.log('');
 
-    const checkChangeFolder = (basePath: string) => {
+    const checkEpicFolder = (basePath: string) => {
       const dirPath = path.join(cwd, basePath);
       if (!fs.existsSync(dirPath)) return;
       
-      const changes = fs.readdirSync(dirPath, { withFileTypes: true })
-        .filter(dirent => dirent.isDirectory())
+      const epics = fs.readdirSync(dirPath, { withFileTypes: true })
+        .filter(dirent => dirent.isDirectory() && dirent.name !== 'archived')
         .map(dirent => dirent.name);
 
-      changes.forEach(slug => {
-        const proposalPath = path.join(basePath, slug, 'proposal.md');
-        if (!fs.existsSync(path.join(cwd, proposalPath))) {
-          console.log(pc.red(`  ✗ Missing proposal.md in ${basePath}/${slug}`));
+      epics.forEach(slug => {
+        const epicPath = path.join(basePath, slug, 'epic.md');
+        if (!fs.existsSync(path.join(cwd, epicPath))) {
+          console.log(pc.red(`  ✗ Missing epic.md in ${basePath}/${slug}`));
           errors++;
         } else {
           try {
-            const parsed = matter(fs.readFileSync(path.join(cwd, proposalPath), 'utf-8'));
+            const parsed = matter(fs.readFileSync(path.join(cwd, epicPath), 'utf-8'));
             if (!parsed.data.status) {
-              console.log(pc.red(`  ✗ Missing 'status' frontmatter in ${proposalPath}`));
+              console.log(pc.red(`  ✗ Missing 'status' frontmatter in ${epicPath}`));
               errors++;
             } else {
-              console.log(pc.green(`  ✓ Valid ${proposalPath}`));
+              console.log(pc.green(`  ✓ Valid ${epicPath}`));
             }
           } catch (e) {
-            console.log(pc.red(`  ✗ Malformed frontmatter in ${proposalPath}`));
+            console.log(pc.red(`  ✗ Malformed frontmatter in ${epicPath}`));
             errors++;
           }
         }
       });
     };
 
-    console.log(pc.bold('Active Changes:'));
-    checkChangeFolder('wlp/changes/active');
+    console.log(pc.bold('Active Epics:'));
+    checkEpicFolder('wlp/epics');
     console.log('');
 
-    console.log(pc.bold('Archived Changes:'));
-    checkChangeFolder('wlp/changes/archive');
+    console.log(pc.bold('Archived Epics:'));
+    checkEpicFolder('wlp/archived');
     console.log('');
 
     if (errors === 0) {

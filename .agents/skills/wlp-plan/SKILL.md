@@ -1,20 +1,14 @@
 ---
 name: "wlp:plan"
-description: "Design architecture and write implementation plan"
+description: "Write a PRD"
 ---
 
 ---
 name: WLP: Plan
-description: Design architecture and write implementation plan
+description: Write a PRD
 ---
 # /wlp:plan
-
-Use this command when the user expresses intent to: design, architect, or write the implementation plan.
-
-## INSTRUCTIONS
-1. Read the specs in `wlp/changes/active/<slug>/specs/`.
-2. Create `design.md` with the technical approach and file changes.
-3. Create `tasks.md` with a detailed checklist of implementation steps.
+Use this command to define requirements in `wlp/prds/`.
 
 ***
 **WLP CORE REQUIREMENT:** 
