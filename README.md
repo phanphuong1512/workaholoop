@@ -67,7 +67,7 @@ Navigate to your project directory and initialize the Loop Engineer harness:
 
 ```bash
 cd my-project
-wlp init --harness all
+wlp init
 ```
 
 *Note: This command scaffolds the required `wlp/` directory structure and installs Slash Commands for popular AI coding extensions (e.g., Claude Code, Google Antigravity, OpenCode).*

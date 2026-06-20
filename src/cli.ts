@@ -10,6 +10,7 @@ import { validateCommand } from './commands/validate.js';
 import { searchCommand } from './commands/search.js';
 import { closeCommand } from './commands/close.js';
 import { syncCommand } from './commands/sync.js';
+import { verifyCommand } from './commands/verify.js';
 
 const require = createRequire(import.meta.url);
 const pkg = require('../package.json');
@@ -28,6 +29,7 @@ program.addCommand(validateCommand);
 program.addCommand(searchCommand);
 program.addCommand(closeCommand);
 program.addCommand(syncCommand);
+program.addCommand(verifyCommand);
 
 program.parse(process.argv);
 

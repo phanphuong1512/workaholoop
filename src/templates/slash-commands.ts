@@ -15,10 +15,17 @@ Use this command to generate \`design.md\`, \`epic.md\` and anti-conflict tasks.
 
   'wlp/execute.md': `---
 name: WLP: Execute
-description: Run the ultimate auto-loop: sync, worktree, subagents, close (Phase 3)
+description: Run the ultimate auto-loop: sync, worktree, subagents, verify, close (Phase 3)
 ---
 # /wlp:execute
 Run the fully automated loop.`,
+
+  'wlp/verify.md': `---
+name: WLP: Verify
+description: Run full project validation suite (lint, typecheck, test, build)
+---
+# /wlp:verify
+Run validation checks in the current directory or specified worktree.`,
 
   'wlp/converge.md': `---
 name: WLP: Converge

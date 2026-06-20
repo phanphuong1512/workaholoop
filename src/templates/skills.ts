@@ -13,6 +13,7 @@ version: 3.0.0
 | "I want to build...", "Let's brainstorm...", "Propose a feature" | **Propose** | → references/propose.md |
 | "Write PRD", "Break down tasks", "Generate spec" | **Spec** | → references/spec.md |
 | "Start coding", "Do it", "Execute", "Run the loop" | **Execute** | → references/execute.md |
+| "Verify the codebase", "Run tests", "Validate changes", "Check for bugs" | **Verify** | → references/verify.md |
 | "Sync codebase", "I manually edited code", "Check what is missing" | **Converge** | → references/converge.md |
 
 ## Context Loading
@@ -59,7 +60,7 @@ export const specMd = `# Spec (/wlp:spec)
 1. Read the Proposal (\`wlp/proposals/<name>.md\`).
 2. Generate \`design.md\` (if Moderate/Enterprise).
 3. Create \`wlp/epics/<name>/epic.md\` (Epic tracking file).
-4. Create Task files (\`wlp/epics/<name>/001.md\`, etc.) with strict anti-conflict metadata.
+4. Create Task files (\`wlp/epics/<name>/001.md\`, etc.) with strict anti-conflict metadata. **CRITICAL:** For each task, you MUST define clear **Test Plan / Verification Criteria** (e.g., which tests to run, what test file to create or update, what cases to cover).
 `;
 
 export const executeMd = `# Execute (/wlp:execute)
@@ -72,7 +73,8 @@ Drive the execution without interrupting the user.
 ## Instructions
 1. **Sync:** Run \`npx wlp sync\` to push the Epic and Tasks to GitHub Issues.
 2. **Worktree:** 
-   - \`git worktree add ../.wlp-worktrees/<name> -b epic/<name>\`
+   - **Check commits:** Ensure the repository has at least one commit (run \`git log -1\` or check \`git rev-parse --verify HEAD\`). If it has no commits (empty repo), create an initial empty commit first: \`git commit --allow-empty -m "Initial commit"\`.
+   - Create worktree: \`git worktree add ../.wlp-worktrees/<name> -b epic/<name>\`
 3. **Subagents:**
    - Launch parallel subagents using \`invoke_subagent\` for tasks with \`status: open\` and no unmet dependencies.
    - **CRITICAL SUBAGENT PROMPT:** 
@@ -81,9 +83,10 @@ Drive the execution without interrupting the user.
      2. Read \`../.wlp-worktrees/<name>/wlp/epics/<name>/design.md\` (if it exists).
      3. Read your task at \`wlp/epics/<name>/<N>.md\`.
      4. Modify code using relative path \`../.wlp-worktrees/<name>/...\`.
-     5. BEFORE FINISHING: Identify one lesson learned or pitfall avoided, and append it to \`wlp/memory/learned.md\`."
+     5. Run \`npx wlp verify\` inside your worktree (if you are running in a worktree) or in current directory to ensure all tests, types, and lints pass.
+     6. BEFORE FINISHING: Identify one lesson learned or pitfall avoided, and append it to \`wlp/memory/learned.md\`."
 4. **Track:** Wait for all subagents to finish. Mark their tasks as \`status: closed\`.
-5. **Verify:** Run \`npx wlp status\`.
+5. **Verify:** Run \`npx wlp verify <name>\` to verify the combined changes in the epic worktree (or just \`npx wlp verify\` if not using worktrees). If verification fails, troubleshoot and fix the issues.
 6. **Close:** Run \`npx wlp close <name>\`.
 `;
 
@@ -131,4 +134,16 @@ depends_on: []
 parallel: true | false
 ---
 \`\`\`
+`;
+
+export const verifyMd = `# Verify (/wlp:verify)
+
+**Goal:** Run the full validation suite (lint, typecheck, test, build) to verify correctness and prevent errors.
+
+## Instructions
+1. Run \`npx wlp verify\` in the current directory, or \`npx wlp verify <epic-slug>\` to run checks on a specific epic worktree.
+2. Observe output. If any step (lint, typecheck, test, build) fails:
+   - Identify the cause of the failure from the log.
+   - Fix the code or configuration.
+   - Re-run \`npx wlp verify\` until everything passes cleanly.
 `;
