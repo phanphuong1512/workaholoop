@@ -58,17 +58,17 @@ WLP V3 introduces four enterprise-grade capabilities inspired by the world's mos
 ### 2. Installation
 Install the WLP CLI globally via npm:
 
-\`\`\`bash
+```bash
 npm install -g @workaholoop/cli
-\`\`\`
+```
 
 ### 3. Initialize your workspace
 Navigate to your project directory and initialize the Loop Engineer harness:
 
-\`\`\`bash
+```bash
 cd my-project
 wlp init --harness all
-\`\`\`
+```
 
 *Note: This command scaffolds the required `wlp/` directory structure and installs Slash Commands for popular AI coding extensions (e.g., Claude Code, Google Antigravity, OpenCode).*
 
@@ -103,7 +103,7 @@ Re-assesses the actual codebase against the Epic. If you manually fixed somethin
 
 When you run `wlp init`, the following structure is injected into your repository. These artifacts serve as the "Source of Truth" for your autonomous agents.
 
-\`\`\`text
+```text
 .
 ├── wlp/
 │   ├── proposals/       # Vetted requirements (Output of /wlp:propose)
@@ -117,7 +117,7 @@ When you run `wlp init`, the following structure is injected into your repositor
 ├── .claude/             # Generated slash commands for Claude
 ├── .agents/             # Generated proxy skills for Google Antigravity
 └── .opencode/           # Generated slash commands for OpenCode
-\`\`\`
+```
 
 ---
 
@@ -134,11 +134,11 @@ Every time a parallel Subagent executes a task in `/wlp:execute`, it is injected
 A major danger of parallel AI execution is race conditions—two agents attempting to modify `src/cli.ts` simultaneously, resulting in Git merge conflicts.
 
 WLP solves this in the `/wlp:spec` phase. The Architect agent statically analyzes the proposed tasks. If Task A (Routing) and Task B (Auth) both require modifying `app.tsx`, the Architect explicitly enforces:
-\`\`\`yaml
+```yaml
 # wlp/epics/auth-feature/002.md
 depends_on: ["001.md"]
 parallel: false
-\`\`\`
+```
 Only strictly orthogonal tasks (e.g., updating a Database schema and writing CSS) are permitted to run with `parallel: true`.
 
 ---
