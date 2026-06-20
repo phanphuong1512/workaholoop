@@ -1,0 +1,361 @@
+# Instincts generated from https://github.com/phanphuong1512/workaholoop
+# Generated: 2026-06-20T14:02:09.350Z
+# Version: 2.0
+# NOTE: This file supplements (does not replace) any existing curated instincts.
+# High-confidence manually curated instincts should be preserved alongside these.
+
+---
+id: workaholoop-commit-length
+trigger: "when writing a commit message"
+confidence: 0.6
+domain: git
+source: repo-analysis
+source_repo: https://github.com/phanphuong1512/workaholoop
+---
+
+# Workaholoop Commit Length
+
+## Action
+
+Keep commit messages concise (~31 characters)
+
+## Evidence
+
+- Average commit message length: 31 chars
+- Based on 4 commits
+
+---
+id: workaholoop-naming-files
+trigger: "when creating a new file"
+confidence: 0.8
+domain: code-style
+source: repo-analysis
+source_repo: https://github.com/phanphuong1512/workaholoop
+---
+
+# Workaholoop Naming Files
+
+## Action
+
+Use PascalCase naming convention
+
+## Evidence
+
+- Analyzed file naming patterns in repository
+- Dominant pattern: PascalCase
+
+---
+id: workaholoop-import-relative
+trigger: "when importing modules"
+confidence: 0.75
+domain: code-style
+source: repo-analysis
+source_repo: https://github.com/phanphuong1512/workaholoop
+---
+
+# Workaholoop Import Relative
+
+## Action
+
+Use relative imports for project files
+
+## Evidence
+
+- Import analysis shows relative import pattern
+- Example: import { x } from '../lib/x'
+
+---
+id: workaholoop-export-style
+trigger: "when exporting from a module"
+confidence: 0.7
+domain: code-style
+source: repo-analysis
+source_repo: https://github.com/phanphuong1512/workaholoop
+---
+
+# Workaholoop Export Style
+
+## Action
+
+Prefer named exports
+
+## Evidence
+
+- Export pattern analysis
+- Dominant style: named
+
+---
+id: workaholoop-test-separate
+trigger: "when writing tests"
+confidence: 0.8
+domain: testing
+source: repo-analysis
+source_repo: https://github.com/phanphuong1512/workaholoop
+---
+
+# Workaholoop Test Separate
+
+## Action
+
+Place tests in the tests/ or __tests__/ directory, mirroring src structure
+
+## Evidence
+
+- Separate test directory pattern detected
+- Tests live in dedicated test folders
+
+---
+id: workaholoop-workflow-wlp-skill-update-workflow
+trigger: "when doing wlp skill update workflow"
+confidence: 0.6
+domain: workflow
+source: repo-analysis
+source_repo: https://github.com/phanphuong1512/workaholoop
+---
+
+# Workaholoop Workflow Wlp Skill Update Workflow
+
+## Action
+
+Follow the wlp-skill-update-workflow workflow:
+1. Edit one or more .agents/skills/wlp-*/SKILL.md files
+2. Optionally update related command or template files in src/commands or src/templates
+
+## Evidence
+
+- Workflow detected from commit patterns
+- Frequency: ~2x per month
+- Files: .agents/skills/wlp-auto/SKILL.md, .agents/skills/wlp-close/SKILL.md, .agents/skills/wlp-execute/SKILL.md
+
+---
+id: workaholoop-instinct-file-naming
+trigger: "When creating a new file in the codebase"
+confidence: 0.85
+domain: code-style
+source: repo-analysis
+source_repo: phanphuong1512/workaholoop
+---
+
+# Workaholoop Instinct File Naming
+
+## Action
+
+Name the file using PascalCase (e.g., MyFile.ts)
+
+## Evidence
+
+- Pattern in namingConventions.files: PascalCase
+
+---
+id: workaholoop-instinct-function-naming
+trigger: "When defining a new function"
+confidence: 0.85
+domain: code-style
+source: repo-analysis
+source_repo: phanphuong1512/workaholoop
+---
+
+# Workaholoop Instinct Function Naming
+
+## Action
+
+Name the function using camelCase (e.g., doSomething())
+
+## Evidence
+
+- Pattern in namingConventions.functions: camelCase
+
+---
+id: workaholoop-instinct-class-naming
+trigger: "When defining a new class"
+confidence: 0.85
+domain: code-style
+source: repo-analysis
+source_repo: phanphuong1512/workaholoop
+---
+
+# Workaholoop Instinct Class Naming
+
+## Action
+
+Name the class using PascalCase (e.g., MyClass)
+
+## Evidence
+
+- Pattern in namingConventions.classes: PascalCase
+
+---
+id: workaholoop-instinct-constant-naming
+trigger: "When defining a constant"
+confidence: 0.85
+domain: code-style
+source: repo-analysis
+source_repo: phanphuong1512/workaholoop
+---
+
+# Workaholoop Instinct Constant Naming
+
+## Action
+
+Name the constant using SCREAMING_SNAKE_CASE (e.g., MY_CONSTANT)
+
+## Evidence
+
+- Pattern in namingConventions.constants: SCREAMING_SNAKE_CASE
+
+---
+id: workaholoop-instinct-import-style
+trigger: "When importing modules"
+confidence: 0.8
+domain: code-style
+source: repo-analysis
+source_repo: phanphuong1512/workaholoop
+---
+
+# Workaholoop Instinct Import Style
+
+## Action
+
+Use relative import paths (e.g., import x from './module')
+
+## Evidence
+
+- Pattern in importStyle: relative
+
+---
+id: workaholoop-instinct-export-style
+trigger: "When exporting functions or classes"
+confidence: 0.8
+domain: code-style
+source: repo-analysis
+source_repo: phanphuong1512/workaholoop
+---
+
+# Workaholoop Instinct Export Style
+
+## Action
+
+Use named exports (e.g., export { myFunction })
+
+## Evidence
+
+- Pattern in exportStyle: named
+
+---
+id: workaholoop-instinct-error-handling
+trigger: "When handling errors in code"
+confidence: 0.8
+domain: code-style
+source: repo-analysis
+source_repo: phanphuong1512/workaholoop
+---
+
+# Workaholoop Instinct Error Handling
+
+## Action
+
+Use try-catch blocks for error handling
+
+## Evidence
+
+- Pattern in errorHandling.style: try-catch
+
+---
+id: workaholoop-instinct-test-location
+trigger: "When adding or updating tests"
+confidence: 0.75
+domain: testing
+source: repo-analysis
+source_repo: phanphuong1512/workaholoop
+---
+
+# Workaholoop Instinct Test Location
+
+## Action
+
+Place test files in a separate test directory, not inside src/
+
+## Evidence
+
+- Pattern in architecture.folderStructure.testLocation: separate
+
+---
+id: workaholoop-instinct-git-commit-prefix
+trigger: "When writing a commit message for a feature or change"
+confidence: 0.8
+domain: git
+source: repo-analysis
+source_repo: phanphuong1512/workaholoop
+---
+
+# Workaholoop Instinct Git Commit Prefix
+
+## Action
+
+Prefix the commit message with 'feat:' (e.g., feat: add new feature)
+
+## Evidence
+
+- Pattern in commits.prefixes: feat
+- Seen in commit: feat(test-wlp-flow): closed via wlp
+
+---
+id: workaholoop-instinct-git-commit-format
+trigger: "When writing a commit message"
+confidence: 0.7
+domain: git
+source: repo-analysis
+source_repo: phanphuong1512/workaholoop
+---
+
+# Workaholoop Instinct Git Commit Format
+
+## Action
+
+Keep commit messages concise (average length ~31 characters)
+
+## Evidence
+
+- Pattern in commits.averageLength: 31
+
+---
+id: workaholoop-instinct-git-commit-task-format
+trigger: "When committing work related to a specific task"
+confidence: 0.7
+domain: git
+source: repo-analysis
+source_repo: phanphuong1512/workaholoop
+---
+
+# Workaholoop Instinct Git Commit Task Format
+
+## Action
+
+Use the format 'Task [number]: [description]' in the commit message
+
+## Evidence
+
+- Seen in commit: Task 3: Add hello docs
+- Seen in commit: Task 2: Implement hello logic
+
+---
+id: workaholoop-instinct-wlp-skill-update-workflow
+trigger: "When updating, refactoring, or adding WLP agent skills (e.g., for new features or architecture changes)"
+confidence: 0.92
+domain: workflow
+source: repo-analysis
+source_repo: phanphuong1512/workaholoop
+---
+
+# Workaholoop Instinct Wlp Skill Update Workflow
+
+## Action
+
+Edit one or more .agents/skills/wlp-*/SKILL.md files and optionally update related command/template files in src/commands or src/templates
+
+## Evidence
+
+- Workflow: wlp-skill-update-workflow
+- Pattern in files: .agents/skills/wlp-*/SKILL.md
+- Commit sequence: Edit SKILL.md, optionally update src/commands or src/templates
+
