@@ -8,7 +8,7 @@ import { execSync } from 'child_process';
 export const standupCommand = new Command('standup')
   .description('Generate daily progress summary')
   .action(() => {
-    console.log(pc.blue(pc.bold('\n🌅 Daily Standup Summary\n')));
+    console.log(pc.blue(pc.bold('\n[Daily Standup Summary]\n')));
 
     // 1. Show active work
     const epicsDir = path.join(process.cwd(), 'wlp/epics');
@@ -20,7 +20,7 @@ export const standupCommand = new Command('standup')
     }
 
     if (activeEpics.length > 0) {
-      console.log(pc.bold('🚧 Currently Active Epics:'));
+      console.log(pc.bold('Currently Active Epics:'));
       activeEpics.forEach(slug => {
         const epicPath = path.join(epicsDir, slug, 'epic.md');
         let status = 'unknown';
@@ -41,11 +41,11 @@ export const standupCommand = new Command('standup')
       });
       console.log('');
     } else {
-      console.log(pc.gray('🚧 Currently Active: None\n'));
+      console.log(pc.gray('Currently Active: None\n'));
     }
 
     // 2. Show recent commits
-    console.log(pc.bold('📦 Recent Commits (Last 24h):'));
+    console.log(pc.bold('Recent Commits (Last 24h):'));
     try {
       if (!fs.existsSync(path.join(process.cwd(), '.git'))) {
         console.log(pc.gray('  (Not a git repository)'));

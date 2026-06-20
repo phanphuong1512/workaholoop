@@ -7,3 +7,5 @@ wlp-worktrees/
 *.tgz
 .env
 .DS_Store
+.agents/
+.opencode/

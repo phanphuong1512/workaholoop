@@ -48,7 +48,7 @@ export const initCommand = new Command("init")
         });
       } catch (err: any) {
         if (err.name === 'ExitPromptError') {
-          console.log(pc.yellow('\n⚠ Initialization canceled.'));
+          console.log(pc.yellow('\n! Initialization canceled.'));
           process.exit(0);
         } else {
           throw err;
@@ -80,9 +80,11 @@ function initWorkspace(harness: string) {
 
     // 2. Create base directories
     const dirs = [
+      "wlp/proposals",
       "wlp/prds",
       "wlp/epics",
       "wlp/archived",
+      "wlp/memory",
       "wlp/skills/core/references",
     ];
 
@@ -90,7 +92,7 @@ function initWorkspace(harness: string) {
       const fullPath = path.join(cwd, dir);
       if (!fs.existsSync(fullPath)) {
         fs.mkdirSync(fullPath, { recursive: true });
-        console.log(pc.green(`✓ Created ${dir}/`));
+        console.log(pc.green(`+ Created ${dir}/`));
       } else {
         console.log(pc.gray(`- ${dir}/ already exists`));
       }
@@ -100,14 +102,21 @@ function initWorkspace(harness: string) {
     const constitutionPath = path.join(cwd, "wlp/constitution.md");
     if (!fs.existsSync(constitutionPath)) {
       fs.writeFileSync(constitutionPath, constitutionTemplate);
-      console.log(pc.green("✓ Created wlp/constitution.md"));
+      console.log(pc.green("+ Created wlp/constitution.md"));
+    }
+
+    // 3.5 Write learned.md
+    const learnedPath = path.join(cwd, "wlp/memory/learned.md");
+    if (!fs.existsSync(learnedPath)) {
+      fs.writeFileSync(learnedPath, "# Learned Memory\\n\\nThis file contains lessons learned from past task executions to prevent repeating mistakes.\\n");
+      console.log(pc.green("+ Created wlp/memory/learned.md"));
     }
 
     // 4. Write config.json
     const configPath = path.join(cwd, "wlp/config.json");
     if (!fs.existsSync(configPath)) {
       fs.writeFileSync(configPath, configTemplate(projectName));
-      console.log(pc.green("✓ Created wlp/config.json"));
+      console.log(pc.green("+ Created wlp/config.json"));
     }
 
     // 5. Write slash commands via Adapters
@@ -119,7 +128,7 @@ function initWorkspace(harness: string) {
     if (adaptersToRun.length === 0) {
       console.log(
         pc.yellow(
-          `⚠️ Unknown harness '${harness}'. Skipping slash commands.`,
+          `! Unknown harness '${harness}'. Skipping slash commands.`,
         ),
       );
     } else {
@@ -131,18 +140,14 @@ function initWorkspace(harness: string) {
     // 6. Write Skill files
     const coreSkillPath = path.join(cwd, "wlp/skills/core");
     if (!fs.existsSync(path.join(coreSkillPath, "SKILL.md"))) {
-      fs.writeFileSync(path.join(coreSkillPath, "SKILL.md"), skills.skillMd);
+      fs.writeFileSync(path.join(coreSkillPath, "SKILL.md"), skills.topLevelSkillMd);
     }
 
     const refs = {
-      "plan.md": skills.planMd,
-      "structure.md": skills.structureMd,
+      "propose.md": skills.proposeMd,
+      "spec.md": skills.specMd,
       "execute.md": skills.executeMd,
-      "sync.md": skills.syncMd,
-      "verify.md": skills.verifyMd,
-      "track.md": skills.trackMd,
-      "close.md": skills.closeMd,
-      "auto.md": skills.autoMd,
+      "converge.md": skills.convergeMd,
       "conventions.md": skills.conventionsMd,
     };
 
@@ -153,7 +158,7 @@ function initWorkspace(harness: string) {
       }
     }
     console.log(
-      pc.green("✓ Created Agent Skill definitions in wlp/skills/core/"),
+      pc.green("+ Created Agent Skill definitions in wlp/skills/core/"),
     );
 
     // 7. Write Worktree Skill
@@ -167,7 +172,7 @@ function initWorkspace(harness: string) {
         worktreeSkillMd,
       );
     }
-    console.log(pc.green("✓ Created Worktree Skill in wlp/skills/worktree/"));
+    console.log(pc.green("+ Created Worktree Skill in wlp/skills/worktree/"));
 
-    console.log(pc.cyan("\n✨ WLP initialized successfully!"));
+    console.log(pc.cyan("\nWLP initialized successfully."));
 }

@@ -9,12 +9,12 @@ import { execSync } from 'child_process';
 export const syncCommand = new Command('sync')
   .description('Bi-directional sync of active epics with GitHub Issues')
   .action(async () => {
-    console.log(pc.blue(pc.bold('\n🔄 Syncing with GitHub Issues...\n')));
+    console.log(pc.blue(pc.bold('\nSyncing with GitHub Issues...\n')));
     const cwd = process.cwd();
     
     const configPath = path.join(cwd, 'wlp/config.json');
     if (!fs.existsSync(configPath)) {
-      console.log(pc.red('✗ wlp/config.json not found.'));
+      console.log(pc.red('! wlp/config.json not found.'));
       return;
     }
     
@@ -23,7 +23,7 @@ export const syncCommand = new Command('sync')
       try {
         token = execSync('gh auth token', { stdio: ['pipe', 'pipe', 'pipe'], encoding: 'utf-8' }).trim();
       } catch (e) {
-        console.log(pc.red('✗ GITHUB_TOKEN not set and `gh auth token` failed.'));
+        console.log(pc.red('! GITHUB_TOKEN not set and `gh auth token` failed.'));
         return;
       }
     }
@@ -37,12 +37,12 @@ export const syncCommand = new Command('sync')
     let owner = '', repo = '';
     try {
       const gitConfig = fs.readFileSync(path.join(cwd, '.git/config'), 'utf-8');
-      const match = gitConfig.match(new RegExp('github\\\\.com[:/]([^/]+)/([^.]+)\\\\.git'));
+      const match = gitConfig.match(/github\.com[:/]([^/]+)\/([^.]+)\.git/);
       if (match) { owner = match[1]; repo = match[2]; }
     } catch (e) {}
 
     if (!owner || !repo) {
-      console.log(pc.red('✗ Could not parse GitHub owner/repo.'));
+      console.log(pc.red('! Could not parse GitHub owner/repo.'));
       return;
     }
 
@@ -68,9 +68,14 @@ export const syncCommand = new Command('sync')
           });
           parsed.data.github = `https://github.com/${owner}/${repo}/issues/${response.data.number}`;
           fs.writeFileSync(epicPath, matter.stringify(parsed.content, parsed.data));
-          console.log(pc.green(`✓ Created Issue #${response.data.number} for ${slug}`));
+          console.log(pc.green(`+ Created Issue #${response.data.number} for ${slug}`));
         } catch (e: any) {
-          console.log(pc.red(`✗ Failed to create issue: ${e.message}`));
+          if (e.message.includes('Bad credentials')) {
+             console.log(pc.red(`! Failed: Bad credentials. Your token is expired.`));
+             console.log(pc.yellow(`Please run: gh auth login`));
+             return; // Stop processing further
+          }
+          console.log(pc.red(`! Failed to create issue: ${e.message}`));
         }
       }
       
@@ -92,10 +97,10 @@ export const syncCommand = new Command('sync')
              if (taskFile !== newName) {
                 fs.renameSync(taskPath, path.join(epicsDir, slug, newName));
              }
-             console.log(pc.green(`✓ Created Task Issue #${tResponse.data.number}`));
+             console.log(pc.green(`+ Created Task Issue #${tResponse.data.number}`));
            } catch (e) {}
         }
       }
     }
-    console.log(pc.cyan('\n✨ GitHub Sync complete!'));
+    console.log(pc.cyan('\nGitHub Sync complete.'));
   });

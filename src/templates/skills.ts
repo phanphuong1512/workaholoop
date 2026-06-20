@@ -1,110 +1,114 @@
-export const skillMd = `---
+export const topLevelSkillMd = `---
 name: wlp
-description: CCPM-style spec-driven workflow: PRD -> Epic -> GitHub Issues -> Parallel Agents
-version: 2.0.0
+description: The Loop Engineer - Intent Routing and Automated Workflow (Propose -> Spec -> Execute)
+version: 3.0.0
 ---
 
-# WORKAHOLOOP (WLP) — CCPM Architecture
+# WORKAHOLOOP (WLP) — The Loop Engineer
 
 ## Intent Routing
 
-| User Intent | Command | Reference |
+| User Intent | Phase | Reference |
 |---|---|---|
-| "write a PRD", "plan feature X" | /wlp:plan | → references/plan.md |
-| "turn PRD into epic", "break down epic" | /wlp:structure | → references/structure.md |
-| "push to github", "sync epic" | /wlp:sync | → references/sync.md |
-| "start working on issue", "execute" | /wlp:execute | → references/execute.md |
-| "status", "standup" | /wlp:track | → references/track.md |
+| "I want to build...", "Let's brainstorm...", "Propose a feature" | **Propose** | → references/propose.md |
+| "Write PRD", "Break down tasks", "Generate spec" | **Spec** | → references/spec.md |
+| "Start coding", "Do it", "Execute", "Run the loop" | **Execute** | → references/execute.md |
+| "Sync codebase", "I manually edited code", "Check what is missing" | **Converge** | → references/converge.md |
 
 ## Context Loading
 Always load:
 1. \`wlp/constitution.md\`
 2. \`wlp/config.json\`
-3. \`wlp/epics/<current-epic>/\` (if working on an epic)
+3. \`wlp/memory/learned.md\` (IMPORTANT: This contains past lessons to avoid repeating mistakes)
+4. \`wlp/epics/<current-epic>/design.md\` (if executing)
 `;
 
-export const planMd = `# Plan (/wlp:plan)
+export const proposeMd = `# Propose (/wlp:propose)
 
-**Goal:** Capture requirements into a PRD.
+**Goal:** Rigorous brainstorming and validation using SIMULATED COUNCIL.
+
+## 🚨 BEHAVIOR: THE SIMULATED COUNCIL (PARTY MODE)
+Before producing any artifact, you must simulate a debate between 3 personas:
+1. **The Product Manager:** Focuses on user value, scope, and "why".
+2. **The Security/Ops Expert:** Focuses on vulnerabilities, edge cases, rate limits, and abuse.
+3. **The Tech Lead:** Focuses on performance, feasibility, and pushes back against feature creep.
+
+Run this debate internally or show it to the user. Ask probing questions based on this debate.
+Do NOT blindly agree with the user. If the user asks for something illogical or overly complex, push back!
 
 ## Instructions
-1. Create a PRD file: \`wlp/prds/<name>.md\`.
-2. Include problem statement, target audience, scope, and non-goals.
-3. Keep it strictly focused on product requirements, not technical architecture.
+1. Engage the user using the Simulated Council.
+2. Ask clarification questions (Clarify Phase) until there are no underspecified areas.
+3. Once finalized, create a Proposal file: \`wlp/proposals/<name>.md\`.
+4. The Proposal must contain: Problem, Target Audience, In-Scope, Out-of-Scope, and Clarified Edge Cases.
 `;
 
-export const structureMd = `# Structure (/wlp:structure)
+export const specMd = `# Spec (/wlp:spec)
 
-**Goal:** Translate PRD into a Technical Epic and decompose into tasks.
+**Goal:** Translate the Proposal into a Technical Design and Epic with Adaptive Depth and Anti-Conflict Task splitting.
+
+## 🚨 BEHAVIOR: ADAPTIVE DEPTH & ANTI-CONFLICT LOGIC
+1. **Adaptive Depth Analysis:** Assess the complexity of the feature.
+   - **Trivial** (e.g., typos, CSS tweaks, simple UI copy): Skip \`design.md\`. Generate a single task \`001.md\` with \`parallel: false\`.
+   - **Moderate/Enterprise**: MUST generate \`design.md\` (Architecture, Schema, API contracts) first.
+2. **Anti-Conflict Splitting:** When creating multiple tasks (\`001.md\`, \`002.md\`), analyze file overlap.
+   - If Task A and Task B touch the same file or share logic, set \`parallel: false\` and use \`depends_on\`.
+   - Only set \`parallel: true\` for strictly orthogonal tasks.
 
 ## Instructions
-1. Create \`wlp/epics/<name>/epic.md\` referencing the PRD.
-2. Decompose the work into independent tasks: \`wlp/epics/<name>/001.md\`, \`002.md\`, etc.
-3. Task files must contain \`depends_on\` and \`parallel\` frontmatter to allow parallel execution.
+1. Read the Proposal (\`wlp/proposals/<name>.md\`).
+2. Generate \`design.md\` (if Moderate/Enterprise).
+3. Create \`wlp/epics/<name>/epic.md\` (Epic tracking file).
+4. Create Task files (\`wlp/epics/<name>/001.md\`, etc.) with strict anti-conflict metadata.
 `;
 
 export const executeMd = `# Execute (/wlp:execute)
 
-**Goal:** Start building using parallel agents and git worktrees.
+**Goal:** The Ultimate Auto-Loop (Sync -> Worktree -> Subagents -> Track -> Close)
 
-## 🚨 WORKTREE COORDINATION RULES
-- **DO NOT create symlinks for state.**
-- You must operate from the main repository root where \`wlp/\` exists.
-- Create the git worktree: \`git worktree add ../.wlp-worktrees/<name> -b epic/<name>\`
-- When modifying code, use the relative path to the worktree: \`../.wlp-worktrees/<name>/path/to/code\`
-- This ensures you can read \`wlp/epics/\` locally while writing code into the isolated worktree.
+## 🚨 THE AUTOMATED LOOP
+Drive the execution without interrupting the user.
 
 ## Instructions
-1. Read the task file: \`wlp/epics/<epic>/<N>.md\`.
-2. Implement the changes in \`../.wlp-worktrees/<epic>/\`.
-3. Commit frequently inside the worktree: \`cd ../.wlp-worktrees/<epic> && git commit -m "Issue #<N>: ..."\`
-4. Update the task frontmatter to \`status: closed\` when done.
+1. **Sync:** Run \`npx wlp sync\` to push the Epic and Tasks to GitHub Issues.
+2. **Worktree:** 
+   - \`git worktree add ../.wlp-worktrees/<name> -b epic/<name>\`
+3. **Subagents:**
+   - Launch parallel subagents using \`invoke_subagent\` for tasks with \`status: open\` and no unmet dependencies.
+   - **CRITICAL SUBAGENT PROMPT:** 
+     "You are assigned Task #<N>. 
+     1. Read \`wlp/memory/learned.md\` to avoid past mistakes.
+     2. Read \`../.wlp-worktrees/<name>/wlp/epics/<name>/design.md\` (if it exists).
+     3. Read your task at \`wlp/epics/<name>/<N>.md\`.
+     4. Modify code using relative path \`../.wlp-worktrees/<name>/...\`.
+     5. BEFORE FINISHING: Identify one lesson learned or pitfall avoided, and append it to \`wlp/memory/learned.md\`."
+4. **Track:** Wait for all subagents to finish. Mark their tasks as \`status: closed\`.
+5. **Verify:** Run \`npx wlp status\`.
+6. **Close:** Run \`npx wlp close <name>\`.
 `;
 
-export const syncMd = `# Sync (/wlp:sync)
+export const convergeMd = `# Converge (/wlp:converge)
 
-**Goal:** Push tasks to GitHub Issues and Epics.
+**Goal:** Re-assess the codebase against the active Spec/Epic and append or close tasks (Brownfield sync).
 
-## Instructions
-1. Tell the user to run \`npx wlp sync\` in their terminal.
-2. The CLI will handle creating issues, attaching labels, and renaming \`001.md\` to \`<IssueNumber>.md\`.
-`;
-
-export const verifyMd = `# Verify (/wlp:verify)
-
-**Goal:** Run tests inside the worktree.
+## 🚨 BEHAVIOR: STATE RECONCILIATION
+Users often write code manually outside the agent loop. This command prevents the Codebase and the Epic from diverging.
 
 ## Instructions
-1. \`cd ../.wlp-worktrees/<epic>\`
-2. Run \`npm run test\`, \`npm run lint\`.
-`;
-
-export const trackMd = `# Track (/wlp:track)
-
-**Goal:** Check status.
-
-## Instructions
-1. Run \`npx wlp status\` or \`npx wlp standup\`.
-2. Parse the output for the user.
-`;
-
-export const closeMd = `# Close (/wlp:close)
-
-**Goal:** Archive the epic and prepare for PR.
-
-## Instructions
-1. Ensure all tasks in \`wlp/epics/<name>/\` are \`status: closed\`.
-2. Run \`npx wlp close <name>\`.
-3. Remind the user to open a Pull Request on GitHub for branch \`epic/<name>\`.
+1. Read the active \`wlp/epics/<name>/epic.md\`, \`design.md\`, and all Tasks.
+2. Analyze the actual source code to see what has been implemented.
+3. If a task was manually implemented by the user, update the task markdown file to \`status: closed\` and check the box in \`epic.md\`.
+4. If the codebase is missing something that the design requires but there is no task for it, CREATE a new task (e.g., \`005.md\`) and append it to the \`epic.md\`.
+5. Report the reconciliation summary to the user.
 `;
 
 export const conventionsMd = `# Conventions
 
-## PRD (\`wlp/prds/<name>.md\`)
+## Proposal (\`wlp/proposals/<name>.md\`)
 \`\`\`yaml
 ---
 name: <feature>
-status: backlog | active | completed
+status: drafted | finalized
 created: <datetime>
 ---
 \`\`\`
@@ -124,11 +128,7 @@ github: url
 name: <task>
 status: open | in-progress | closed
 depends_on: []
-parallel: true
+parallel: true | false
 ---
 \`\`\`
-`;
-
-export const autoMd = `# Auto-Pilot (/wlp:auto)
-Run Plan -> Structure -> Execute -> Close sequentially.
 `;

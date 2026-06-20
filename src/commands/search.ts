@@ -7,7 +7,7 @@ export const searchCommand = new Command('search')
   .description('Full-text search across all epics and PRDs')
   .argument('<query>', 'Text to search for')
   .action((query) => {
-    console.log(pc.blue(pc.bold(`\n🔍 Searching for "${query}"...\n`)));
+    console.log(pc.blue(pc.bold(`\n[Search] "${query}"...\n`)));
     const cwd = process.cwd();
     const epicsDir = path.join(cwd, 'wlp/epics');
     const archiveDir = path.join(cwd, 'wlp/archived');
@@ -19,7 +19,7 @@ export const searchCommand = new Command('search')
       if (fs.existsSync(filePath)) {
         const content = fs.readFileSync(filePath, 'utf-8');
         if (content.toLowerCase().includes(query.toLowerCase())) {
-          console.log(pc.green(`✓ Found in [${label}] ${context}/${path.basename(filePath)}`));
+          console.log(pc.green(`+ Found in [${label}] ${context}/${path.basename(filePath)}`));
           foundCount++;
         }
       }
@@ -54,6 +54,6 @@ export const searchCommand = new Command('search')
     if (foundCount === 0) {
       console.log(pc.yellow('No results found.'));
     } else {
-      console.log(pc.cyan(`\n✨ Found ${foundCount} matching files.`));
+      console.log(pc.cyan(`\nFound ${foundCount} matching files.`));
     }
   });

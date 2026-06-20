@@ -1,134 +1,158 @@
 <div align="center">
-  <h1>Workaholoop (WLP)</h1>
-  <p><strong>A Spec-Driven State Machine for AI Agents</strong></p>
-  <p>Enforces structured coding workflows, parallel worktrees, and seamless GitHub sync for Agentic Software Engineering.</p>
-
-[![npm version](https://badge.fury.io/js/@workaholoop%2Fcli.svg)](https://badge.fury.io/js/@workaholoop%2Fcli)
-[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT)
-
+    <h1>🔄 WORKAHOLOOP (WLP)</h1>
+    <h3><em>The Loop Engineer — Spec-Driven Auto-Loop Architecture</em></h3>
 </div>
 
-<hr/>
+<p align="center">
+    <strong>An ultra-powerful AI Agent framework combining Spec-Driven Development, Parallel Subagents, and Git Worktrees to deliver high-quality software with zero hallucination.</strong>
+</p>
 
-> **"Discipline creates speed."**
+<p align="center">
+    <a href="https://github.com/workaholoop/wlp"><img src="https://img.shields.io/npm/v/@workaholoop/cli?color=blue&label=version" alt="Latest Release"/></a>
+    <a href="https://github.com/workaholoop/wlp/blob/main/LICENSE"><img src="https://img.shields.io/github/license/workaholoop/wlp" alt="License"/></a>
+    <a href="https://nodejs.org"><img src="https://img.shields.io/badge/node-%3E%3D18.0.0-brightgreen" alt="Node.js Version"/></a>
+</p>
 
-The era of "Vibe Coding" is over. When you let AI agents code without a strict plan, they hallucinate, get stuck in infinite retry loops, lose context, and step on each other's toes.
+---
 
-**Workaholoop (WLP)** is an orchestration framework that forces your AI agents (Claude Code, Cursor, Aider) into a disciplined, military-grade development lifecycle. It replaces abstract conversational memory with deterministic, on-disk state machines. **File = State = Truth.**
+## 📖 Table of Contents
 
-## Philosophy
+- [🤔 What is Workaholoop?](#-what-is-workaholoop)
+- [✨ Core Philosophy & V3 Features](#-core-philosophy--v3-features)
+- [⚡ Quick Start](#-quick-start)
+- [🔄 The 4-Step Auto-Loop](#-the-4-step-auto-loop)
+- [🗂️ Workspace Architecture](#️-workspace-architecture)
+- [🧠 Advanced: Learned Memory](#-advanced-learned-memory)
+- [🛡️ Advanced: Anti-Conflict Spec](#️-advanced-anti-conflict-spec)
+- [🤝 Contributing](#-contributing)
+- [📄 License](#-license)
 
-1. **Spec-Driven**: Every line of code must trace back to a specification. You don't code without an approved spec.
-2. **File as State**: If a change folder is in `wlp/changes/active/`, work is in progress. If it's in `wlp/changes/archive/`, it's done. The local filesystem is the single source of truth.
-3. **Strict by Default**: You must progress through the phases sequentially: `PROPOSED` → `SPECCED` → `PLANNED` → `ACTIVE` → `VERIFIED` → `CLOSED`.
-4. **Deterministic Tracking**: Progress tracking is done via a fast TypeScript CLI—costing zero LLM tokens and eliminating AI hallucination.
+---
 
-## Why Choose WLP? (The Killer Features)
+## 🤔 What is Workaholoop?
 
-- **Parallel Agent Execution (Git Worktrees):** Run 5 AI agents simultaneously on 5 different features. WLP isolates them into separate `git worktrees`, preventing git conflicts and port collisions.
-- **Zero-Config GitHub Sync:** Bi-directionally sync active features with GitHub Issues. WLP securely and automatically uses your existing `gh auth token` under the hood. No manual setup required.
-- **Harness Agnostic:** A pluggable adapter architecture. Write specs once, execute them with Claude Code, Google Antigravity, OpenCode, Cursor, or Windsurf.
-- **0-Token State Tracking:** Progress tracking, status summaries, and file validation are powered by a blazing-fast TypeScript CLI—costing you zero LLM tokens.
+**Workaholoop (WLP)** flips the script on traditional AI development. Instead of "vibe coding" where an AI writes unmanageable spaghetti code in a single prompt, WLP introduces **The Loop Engineer** architecture.
 
-## Ecosystem Comparison
+By integrating the rigorous architectural planning of [OpenSpec](https://github.com/Fission-AI/OpenSpec) with the blazing-fast parallel execution of [CCPM](https://github.com/automazeio/ccpm), WLP forces your AI to act as a **Product Manager, Architect, and a team of Parallel Developers** all working in absolute harmony through Git Worktrees.
 
-WLP combines the strict orchestration of CCPM with the modular architecture of OpenSpec, and the spec-first mindset of GitHub Spec-Kit:
+---
 
-| Feature                | WLP                     | OpenSpec     | CCPM                    | Spec-Kit       | ECC            |
-| :--------------------- | :---------------------- | :----------- | :---------------------- | :------------- | :------------- |
-| **Workflow Paradigm**  | Strict Spec-Driven      | Exploratory  | Strict                  | Spec-Driven    | Conversational |
-| **Parallel Execution** | Native (`git worktree`) | No           | Native (`git worktree`) | No             | No             |
-| **GitHub Sync**        | Auto (Zero-Config `gh`) | Manual       | Manual                  | Native (Cloud) | No             |
-| **State Tracking**     | CLI (Instant, 0 tokens) | Prompt-based | Prompt-based            | Cloud Issues   | Prompt-based   |
+## ✨ Core Philosophy & V3 Features
 
-## Installation & Quick Start
+WLP V3 introduces four enterprise-grade capabilities inspired by the world's most advanced Agent OS frameworks:
 
-Install the CLI globally:
+1. **🎭 Party Mode (Simulated Council):** WLP does not blindly agree with your feature requests. In the Propose phase, it simulates a rigorous debate between a Product Manager (focusing on UX), a Security Expert (focusing on edge cases), and a Tech Lead (focusing on performance). Your requirements must survive this council before any spec is written.
+2. **⚖️ Adaptive Depth & Anti-Conflict:** Not all features require massive architectural documents. WLP adapts: trivial bug fixes get a fast-track task, while enterprise features generate a rigid `design.md`. Crucially, its **Anti-Conflict Logic** analyzes file overlap and explicitly disables parallel execution if two tasks touch the same file.
+3. **🧠 Continuous Learning (Learned Memory):** Agents shouldn't make the same mistake twice. WLP features a global `learned.md` ledger. Subagents read this before coding, and append new lessons learned after successfully fixing bugs.
+4. **🔗 Brownfield Converge:** Need to jump in and code manually? Go ahead. WLP provides a `converge` command that scans your actual codebase, reconciles it against the AI's Epic tracker, and automatically closes completed tasks or generates new ones to fill the gaps.
 
-```bash
+---
+
+## ⚡ Quick Start
+
+### 1. Prerequisites
+- **Node.js** v18+
+- **Git** (for Worktree orchestration)
+- **GitHub CLI (`gh`)** (for automated PR and Issue synchronization)
+
+### 2. Installation
+Install the WLP CLI globally via npm:
+
+\`\`\`bash
 npm install -g @workaholoop/cli
-```
+\`\`\`
 
-Navigate to your project root and initialize the state machine:
+### 3. Initialize your workspace
+Navigate to your project directory and initialize the Loop Engineer harness:
 
-```bash
-wlp init
-```
+\`\`\`bash
+cd my-project
+wlp init --harness all
+\`\`\`
 
-_This scaffolds the `wlp/` directory, injects the agent skills, and sets up your IDE harness commands (e.g. for Claude Code, Antigravity, or OpenCode)._
+*Note: This command scaffolds the required `wlp/` directory structure and installs Slash Commands for popular AI coding extensions (e.g., Claude Code, Google Antigravity, OpenCode).*
 
-**Your First Feature:**
+---
 
-- **For Claude Code & OpenCode:** Propose a change using the slash command:
-  ```text
-  /wlp:propose "Add dark mode support to the dashboard"
-  ```
-- **For Google Antigravity:** Use Natural Language (Intent Routing):
-  ```text
-  "Wlp propose a change to add dark mode support"
-  ```
+## 🔄 The 4-Step Auto-Loop
 
-## The Spec-Driven Workflow
+WLP enforces a strict, four-phase lifecycle. You can trigger these via Slash Commands in your AI IDE, or simply by stating your intent in natural language.
 
-Agents are blocked from writing code until the spec is approved. Follow the commands sequentially:
+### Step 1: Brainstorming & Requirements (`/wlp:propose`)
+Initiates the **Party Mode**. The agent acts as a strict council, asking hard questions about edge cases, scopes, and vulnerabilities. 
+- **Output:** A bulletproof proposal saved to `wlp/proposals/<name>.md`.
 
-```mermaid
-graph TD
-    Propose["/wlp:propose<br>(Define the Why)"]
-    Spec["/wlp:spec<br>(Acceptance Criteria)"]
-    Plan["/wlp:plan<br>(Architecture Design)"]
-    Execute["/wlp:execute<br>(Write Code)"]
-    Verify["/wlp:verify<br>(Run Tests/Lints)"]
-    Close["/wlp:close<br>(Squash Merge & Archive)"]
+### Step 2: Architecture & Splitting (`/wlp:spec`)
+The Architect takes over. It reads the proposal and writes a technical constitution (`design.md`). Then, it breaks the work into an Epic and orthogonal tasks (`001.md`, `002.md`).
+- **Output:** `wlp/epics/<name>/design.md`, `epic.md`, and task files.
 
-    Propose --> Spec
-    Spec --> Plan
-    Plan --> Execute
-    Execute --> Verify
-    Verify --> Close
+### Step 3: Parallel Execution (`/wlp:execute`)
+Runs the feature end-to-end autonomously:
+1. **Sync:** Pushes Epic/Tasks to GitHub Issues.
+2. **Worktree:** Checks out an isolated Git worktree (`../.wlp-worktrees/`) so your main branch stays perfectly clean.
+3. **Parallel Subagents:** Launches background agents to execute orthogonal tasks simultaneously.
+4. **Memory Logging:** Subagents append their learned lessons to `wlp/memory/learned.md`.
+5. **Close:** Merges the worktree and opens a GitHub Pull Request.
 
-    style Propose fill:#1e1e1e,stroke:#fff,color:#fff
-    style Spec fill:#1e1e1e,stroke:#fff,color:#fff
-    style Plan fill:#1e1e1e,stroke:#fff,color:#fff
-    style Execute fill:#0052cc,stroke:#fff,color:#fff
-    style Verify fill:#0052cc,stroke:#fff,color:#fff
-    style Close fill:#0e8a16,stroke:#fff,color:#fff
-```
+### Step 4: State Reconciliation (`/wlp:converge`)
+Re-assesses the actual codebase against the Epic. If you manually fixed something outside the AI loop, it marks the task as `[x]`. If code is missing, it spawns new tasks to fill the gaps.
 
-## CLI Commands Reference
+---
 
-While the AI agent handles the code, the **Deterministic CLI** handles your project management:
+## 🗂️ Workspace Architecture
 
-| Command              | Description                                                                   |
-| :------------------- | :---------------------------------------------------------------------------- |
-| `wlp init`           | Scaffolds the workspace and installs harness adapters.                        |
-| `wlp status`         | Prints a beautifully formatted table of all active changes and their phases.  |
-| `wlp sync`           | Zero-config bi-directional sync with GitHub Issues.                           |
-| `wlp standup`        | Generates a daily progress summary by combining active tasks and git commits. |
-| `wlp validate`       | Checks your `wlp/` directory for missing files or broken YAML frontmatter.    |
-| `wlp search <query>` | Full-text search across all proposals and architectural specs.                |
+When you run `wlp init`, the following structure is injected into your repository. These artifacts serve as the "Source of Truth" for your autonomous agents.
 
-## Directory Architecture
-
-```text
-my-project/
+\`\`\`text
+.
 ├── wlp/
-│   ├── config.json               # Sync settings & harness details
-│   ├── constitution.md           # Your non-negotiable engineering rules
-│   ├── changes/
-│   │   ├── active/               # Features currently in development
-│   │   │   └── add-dark-mode/
-│   │   │       ├── proposal.md
-│   │   │       ├── specs/
-│   │   │       ├── design.md
-│   │   │       └── tasks.md      # The Execution Checklist
-│   │   └── archive/              # Completed and squashed features
-│   └── skills/                   # Agent behavioral instructions
-└── src/
-```
+│   ├── proposals/       # Vetted requirements (Output of /wlp:propose)
+│   ├── prds/            # Legacy PRD storage
+│   ├── epics/           # Technical designs, epic trackers, and granular tasks
+│   ├── memory/          # Continuous learning ledger (learned.md)
+│   ├── archived/        # Completed and merged epics
+│   └── skills/          # Agent behavior prompts and intent routers
+│       ├── core/        # Core WLP loop logic
+│       └── worktree/    # Git worktree orchestration rules
+├── .claude/             # Generated slash commands for Claude
+├── .agents/             # Generated proxy skills for Google Antigravity
+└── .opencode/           # Generated slash commands for OpenCode
+\`\`\`
 
-## Contributing & License
+---
 
-We enforce a clean git history. When a feature is completed using `/wlp:close`, the agent will perform a **squash merge**, condensing its messy trial-and-error commits into a single semantic commit.
+## 🧠 Advanced: Learned Memory
 
-WLP is MIT Licensed. Pull requests are welcome!
+WLP implements a lightweight but highly effective **Continuous Learning** cycle inspired by the *Extreme Code Correction (ECC)* framework. 
+
+Every time a parallel Subagent executes a task in `/wlp:execute`, it is injected with the context of `wlp/memory/learned.md`. This file acts as the project's institutional memory. If a subagent spends 10 minutes resolving a tricky Webpack build error, its final step is to append the exact solution to `learned.md`. Future agents assigned to new tasks will read this file and avoid the pitfall entirely.
+
+---
+
+## 🛡️ Advanced: Anti-Conflict Spec
+
+A major danger of parallel AI execution is race conditions—two agents attempting to modify `src/cli.ts` simultaneously, resulting in Git merge conflicts.
+
+WLP solves this in the `/wlp:spec` phase. The Architect agent statically analyzes the proposed tasks. If Task A (Routing) and Task B (Auth) both require modifying `app.tsx`, the Architect explicitly enforces:
+\`\`\`yaml
+# wlp/epics/auth-feature/002.md
+depends_on: ["001.md"]
+parallel: false
+\`\`\`
+Only strictly orthogonal tasks (e.g., updating a Database schema and writing CSS) are permitted to run with `parallel: true`.
+
+---
+
+## 🤝 Contributing
+
+We welcome contributions! Spec-Driven Development is an evolving paradigm, and we are constantly looking to improve our prompts, adapters, and CLI tooling.
+
+1. Fork the repository
+2. Create your feature branch (`git checkout -b feature/amazing-feature`)
+3. Commit your changes (`git commit -m 'Add some amazing feature'`)
+4. Push to the branch (`git push origin feature/amazing-feature`)
+5. Open a Pull Request
+
+## 📄 License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.

@@ -7,16 +7,16 @@ import matter from 'gray-matter';
 export const validateCommand = new Command('validate')
   .description('Check file structure and frontmatter integrity')
   .action(() => {
-    console.log(pc.blue(pc.bold('\n🔍 Validating WLP Workspace\n')));
+    console.log(pc.blue(pc.bold('\n[Validating WLP Workspace]\n')));
     const cwd = process.cwd();
     let errors = 0;
 
     const checkFile = (filepath: string) => {
       if (!fs.existsSync(path.join(cwd, filepath))) {
-        console.log(pc.red(`  ✗ Missing file: ${filepath}`));
+        console.log(pc.red(`  ! Missing file: ${filepath}`));
         errors++;
       } else {
-        console.log(pc.green(`  ✓ Found: ${filepath}`));
+        console.log(pc.green(`  + Found: ${filepath}`));
       }
     };
 
@@ -36,19 +36,19 @@ export const validateCommand = new Command('validate')
       epics.forEach(slug => {
         const epicPath = path.join(basePath, slug, 'epic.md');
         if (!fs.existsSync(path.join(cwd, epicPath))) {
-          console.log(pc.red(`  ✗ Missing epic.md in ${basePath}/${slug}`));
+          console.log(pc.red(`  ! Missing epic.md in ${basePath}/${slug}`));
           errors++;
         } else {
           try {
             const parsed = matter(fs.readFileSync(path.join(cwd, epicPath), 'utf-8'));
             if (!parsed.data.status) {
-              console.log(pc.red(`  ✗ Missing 'status' frontmatter in ${epicPath}`));
+              console.log(pc.red(`  ! Missing 'status' frontmatter in ${epicPath}`));
               errors++;
             } else {
-              console.log(pc.green(`  ✓ Valid ${epicPath}`));
+              console.log(pc.green(`  + Valid ${epicPath}`));
             }
           } catch (e) {
-            console.log(pc.red(`  ✗ Malformed frontmatter in ${epicPath}`));
+            console.log(pc.red(`  ! Malformed frontmatter in ${epicPath}`));
             errors++;
           }
         }
@@ -64,9 +64,9 @@ export const validateCommand = new Command('validate')
     console.log('');
 
     if (errors === 0) {
-      console.log(pc.green(pc.bold('✨ Workspace is perfectly valid!\n')));
+      console.log(pc.green(pc.bold('Workspace is perfectly valid!\n')));
     } else {
-      console.log(pc.red(pc.bold(`⚠️ Found ${errors} validation error(s).\n`)));
+      console.log(pc.red(pc.bold(`! Found ${errors} validation error(s).\n`)));
       process.exitCode = 1;
     }
   });
