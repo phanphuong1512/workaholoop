@@ -8,7 +8,7 @@
     "bin"
   ],
   "bin": {
-    "wlp": "./bin/wlp.js"
+    "wlp": "bin/wlp.js"
   },
   "scripts": {
     "build": "tsup",
