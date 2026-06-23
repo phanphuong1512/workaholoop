@@ -32,5 +32,12 @@ name: WLP: Converge
 description: Re-assess codebase against Epic and sync tasks
 ---
 # /wlp:converge
-Run this to sync manual code changes with the Epic.`
+Run this to sync manual code changes with the Epic.`,
+
+  'wlp/auto.md': `---
+name: WLP: Auto-Pilot
+description: Run the full WLP lifecycle sequentially without human intervention (Phase 1 to 5)
+---
+# /wlp:auto
+Use this command to autonomously propose, design, execute, verify, and close a feature.`
 };

@@ -14,6 +14,7 @@ version: 3.0.0
 | "Write PRD", "Break down tasks", "Generate spec" | **Spec** | → references/spec.md |
 | "Start coding", "Do it", "Execute", "Run the loop" | **Execute** | → references/execute.md |
 | "Verify the codebase", "Run tests", "Validate changes", "Check for bugs" | **Verify** | → references/verify.md |
+| "Auto-pilot", "Chain commands", "Run end-to-end", "Do all steps autonomously" | **Auto** | → references/auto.md |
 | "Sync codebase", "I manually edited code", "Check what is missing" | **Converge** | → references/converge.md |
 
 ## Context Loading
@@ -146,4 +147,27 @@ export const verifyMd = `# Verify (/wlp:verify)
    - Identify the cause of the failure from the log.
    - Fix the code or configuration.
    - Re-run \`npx wlp verify\` until everything passes cleanly.
+`;
+
+export const autoMd = `# Auto-Pilot (/wlp:auto)
+
+**Goal:** Run the full WLP lifecycle sequentially without human intervention to implement a feature or solve a bug.
+
+## 🚨 THE FULL AUTOMATED LOOP
+You are tasked with executing the entire Loop Engineer lifecycle end-to-end. Do NOT ask for permission between phases. Proceed continuously until the feature is fully verified and closed.
+
+## Instructions
+1. **Phase 1: Propose**
+   - Simulate the internal debate (Simulated Council) to refine requirements.
+   - Write the proposal to \`wlp/proposals/<name>.md\`.
+2. **Phase 2: Spec**
+   - Generate \`wlp/epics/<name>/design.md\` (if moderate/enterprise).
+   - Create \`wlp/epics/<name>/epic.md\` and tasks (\`001.md\`, etc.) with clear test specifications.
+3. **Phase 3: Execute**
+   - Create worktree: \`git worktree add ../.wlp-worktrees/<name> -b epic/<name>\`
+   - Run subagents to execute all tasks concurrently or sequentially.
+4. **Phase 4: Verify**
+   - Run \`npx wlp verify <name>\` inside the epic worktree to ensure typecheck, lint, test, and build all pass.
+5. **Phase 5: Close**
+   - Run \`npx wlp close <name>\` to push the branch, open a PR, and archive the epic locally.
 `;

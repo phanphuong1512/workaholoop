@@ -165,6 +165,7 @@ function initWorkspace(harness: string) {
       "spec.md": skills.specMd,
       "execute.md": skills.executeMd,
       "verify.md": skills.verifyMd,
+      "auto.md": skills.autoMd,
       "converge.md": skills.convergeMd,
       "conventions.md": skills.conventionsMd,
     };
