@@ -8,7 +8,7 @@
 </p>
 
 <p align="center">
-    <a href="https://github.com/workaholoop/wlp"><img src="https://img.shields.io/npm/v/@workaholoop/cli?color=blue&label=version" alt="Latest Release"/></a>
+    <a href="https://github.com/workaholoop/wlp"><img src="https://img.shields.io/npm/v/@workaholoop/wlp?color=blue&label=version" alt="Latest Release"/></a>
     <a href="https://github.com/workaholoop/wlp/blob/main/LICENSE"><img src="https://img.shields.io/github/license/workaholoop/wlp" alt="License"/></a>
     <a href="https://nodejs.org"><img src="https://img.shields.io/badge/node-%3E%3D22.0.0-brightgreen" alt="Node.js Version"/></a>
 </p>
@@ -61,13 +61,13 @@ WLP V3 introduces four enterprise-grade capabilities inspired by the world's mos
 Install the WLP CLI globally via npm:
 
 ```bash
-npm install -g @workaholoop/cli
+npm install -g @workaholoop/wlp
 ```
 
 To update to the latest version:
 
 ```bash
-npm update -g @workaholoop/cli
+npm update -g @workaholoop/wlp
 ```
 
 ### 3. Initialize your workspace
