@@ -5,6 +5,7 @@ import path from 'path';
 import matter from 'gray-matter';
 import { Octokit } from '@octokit/rest';
 import { execSync } from 'child_process';
+import { confirm } from '@inquirer/prompts';
 
 export const syncCommand = new Command('sync')
   .description('Bi-directional sync of active epics with GitHub Issues')
@@ -34,6 +35,51 @@ export const syncCommand = new Command('sync')
       return;
     }
 
+    // 0. Detect and initialize git if missing (with confirmation)
+    if (!fs.existsSync(path.join(cwd, '.git'))) {
+      const initGit = await confirm({
+        message: 'Git repository not detected. Would you like to initialize git now?',
+        default: true
+      });
+      if (initGit) {
+        try {
+          execSync('git init', { stdio: 'inherit' });
+          console.log(pc.green('+ Initialized empty Git repository.'));
+        } catch (e: any) {
+          console.log(pc.red(`! Failed to initialize Git repository: ${e.message}`));
+          return;
+        }
+      } else {
+        console.log(pc.red('! Aborted: Git repository is required for syncing.'));
+        return;
+      }
+    }
+
+    // 0.5. Check and create initial commit if repository is empty
+    let hasCommits = false;
+    try {
+      execSync('git rev-parse --verify HEAD', { stdio: 'ignore' });
+      hasCommits = true;
+    } catch (e) {
+      hasCommits = false;
+    }
+
+    if (!hasCommits) {
+      console.log(pc.yellow('No commits found in the local repository. Creating initial commit...'));
+      try {
+        execSync('git add .', { stdio: 'ignore' });
+        execSync('git commit -m "Initial commit"', { stdio: 'ignore' });
+        console.log(pc.green('+ Staged files and created initial commit.'));
+      } catch (e) {
+        try {
+          execSync('git commit --allow-empty -m "Initial commit"', { stdio: 'ignore' });
+          console.log(pc.green('+ Created empty initial commit.'));
+        } catch (e2: any) {
+          console.log(pc.red(`! Failed to create initial commit: ${e2.message}`));
+        }
+      }
+    }
+
     let owner = '', repo = '';
     try {
       let remoteUrl = '';
@@ -50,6 +96,30 @@ export const syncCommand = new Command('sync')
               break;
             }
           }
+        }
+      }
+
+      // If no remote URL found, ask to create GitHub repo automatically
+      if (!remoteUrl) {
+        const createRepo = await confirm({
+          message: 'No remote origin found. Would you like to automatically create a private GitHub repository for this project?',
+          default: true
+        });
+        if (createRepo) {
+          try {
+            const projectName = path.basename(cwd);
+            console.log(pc.gray(`Creating private GitHub repository: ${projectName}...`));
+            execSync(`gh repo create "${projectName}" --private --source=. --push`, { stdio: 'inherit' });
+            remoteUrl = execSync('git remote get-url origin', { stdio: ['pipe', 'pipe', 'pipe'], encoding: 'utf-8' }).trim();
+            console.log(pc.green(`+ Created GitHub repository and pushed commits.`));
+          } catch (err: any) {
+            console.log(pc.red(`! Failed to automatically create GitHub repository: ${err.message}`));
+            console.log(pc.yellow('Please make sure you are logged in via GitHub CLI (run: gh auth login)'));
+            return;
+          }
+        } else {
+          console.log(pc.red('! Aborted: GitHub remote repository is required to sync issues.'));
+          return;
         }
       }
 
