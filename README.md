@@ -53,13 +53,21 @@ WLP V3 introduces four enterprise-grade capabilities inspired by the world's mos
 ### 1. Prerequisites
 - **Node.js** v22+ (LTS)
 - **Git** (for Worktree orchestration)
-- **GitHub CLI (`gh`)** (for automated PR and Issue synchronization)
+- **GitHub CLI (\`gh\`)** (for automated PR and Issue synchronization)
+  - **macOS:** \`brew install gh\`
+  - **Windows:** \`winget install --id GitHub.cli\`
 
-### 2. Installation
+### 2. Installation & Update
 Install the WLP CLI globally via npm:
 
 ```bash
 npm install -g @workaholoop/cli
+```
+
+To update to the latest version:
+
+```bash
+npm update -g @workaholoop/cli
 ```
 
 ### 3. Initialize your workspace
