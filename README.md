@@ -41,7 +41,7 @@ By integrating the rigorous architectural planning of [OpenSpec](https://github.
 
 WLP V3 introduces four enterprise-grade capabilities inspired by the world's most advanced Agent OS frameworks:
 
-1. **Party Mode (Simulated Council):** WLP does not blindly agree with your feature requests. In the Propose phase, it simulates a rigorous debate between a Product Manager (focusing on UX), a Security Expert (focusing on edge cases), and a Tech Lead (focusing on performance). Your requirements must survive this council before any spec is written.
+1. **Internal Multi-Perspective Brainstorming:** WLP does not blindly agree with your feature requests. In the Propose phase, it performs an internal multi-perspective brainstorm under 4 viewpoints (PM/BA, Developer/Tech Lead, Architect, and Security/Ops Expert) inside its reasoning blocks, directly asking you targeted clarification questions to refine the requirements.
 2. **Adaptive Depth & Anti-Conflict:** Not all features require massive architectural documents. WLP adapts: trivial bug fixes get a fast-track task, while enterprise features generate a rigid `design.md`. Crucially, its **Anti-Conflict Logic** analyzes file overlap and explicitly disables parallel execution if two tasks touch the same file.
 3. **Continuous Learning (Learned Memory):** Agents shouldn't make the same mistake twice. WLP features a global `learned.md` ledger. Subagents read this before coding, and append new lessons learned after successfully fixing bugs.
 4. **Brownfield Converge:** Need to jump in and code manually? Go ahead. WLP provides a `converge` command that scans your actual codebase, reconciles it against the AI's Epic tracker, and automatically closes completed tasks or generates new ones to fill the gaps.
@@ -87,7 +87,7 @@ wlp init
 WLP enforces a strict, four-phase lifecycle. You can trigger these via Slash Commands in your AI IDE, or simply by stating your intent in natural language.
 
 ### Step 1: Brainstorming & Requirements (`/wlp:propose`)
-Initiates the **Party Mode**. The agent acts as a strict council, asking hard questions about edge cases, scopes, and vulnerabilities. 
+Initiates the **Internal Brainstorm**. The agent internally analyzes requirements under multiple engineering and business viewpoints, then outputs targeted clarification questions to refine the requirements and validate them to the absolute end.
 - **Output:** A vetted Product Requirement Document (PRD) saved to `wlp/prds/<name>.md`.
 
 ### Step 2: Architecture & Splitting (`/wlp:spec`)

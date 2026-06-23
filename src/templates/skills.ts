@@ -27,22 +27,23 @@ Always load:
 
 export const proposeMd = `# Propose (/wlp:propose)
 
-**Goal:** Rigorous brainstorming and validation using SIMULATED COUNCIL, resulting in a Proposal and a validated PRD.
+**Goal:** Rigorous brainstorming and validation of requirements, resulting in a validated PRD.
 
-## 🚨 BEHAVIOR: THE SIMULATED COUNCIL (PARTY MODE)
-Before producing any artifact, you must simulate a debate between 3 personas:
-1. **The Product Manager:** Focuses on user value, scope, and "why".
-2. **The Security/Ops Expert:** Focuses on vulnerabilities, edge cases, rate limits, and abuse.
-3. **The Tech Lead:** Focuses on performance, feasibility, and pushes back against feature creep.
+## 🚨 BEHAVIOR: INTERNAL MULTI-PERSPECTIVE BRAINSTORM
+Before outputting any text to the user, you MUST internally brainstorm (in your thought block) under multiple viewpoints:
+1. **PM / BA (Business Analyst):** Clarify business rules, core use cases, user flows, and why the feature is needed.
+2. **Developer / Tech Lead:** Determine tech stack, libraries, performance limits, and feasibility.
+3. **Architect:** Decide data storage needs (SQL vs NoSQL, schemas, storage formats).
+4. **Security / Ops Expert:** Identify edge cases, permissions, rate limits, and abuse vectors.
 
-You MUST display this debate to the user. Ask probing questions based on this debate.
-Do NOT blindly agree with the user. If the user asks for something illogical or overly complex, push back!
+**CRITICAL:** Do NOT roleplay or output any mock debate in the chat. Speak directly as yourself, but formulate a comprehensive, clean, and targeted set of questions to clarify requirements.
 
 ## Instructions
-1. **Simulate Council:** Display the 3-persona Simulated Council debate to the user.
-2. **Draft PRD:** Write a draft PRD containing the initial requirements to \`wlp/prds/<name>.md\` (set \`status: drafted\`).
-3. **Validate & Clarify:** Ask clarification questions to the user based on the debate and the draft PRD.
-4. **Final Approval:** Present the finalized PRD to the user for final validation and approval. Once approved, update the status to \`approved\`.
+1. **Internal Analysis:** Think through the request from the 4 perspectives. Identify all unclear requirements, gaps, or assumptions.
+2. **Clarification Checkpoint:** Output a structured list of questions to the user in the chat (e.g., tech stack, database choices, core business logic flows). Always push back if requirements are illogical or overly complex.
+3. **Confirm & Validate:** You MUST confirm all unclear items. Validate the idea and requirements to the absolute end. Do NOT proceed until the user clarifies all questions.
+4. **Draft PRD:** Write a draft PRD containing the requirements to \`wlp/prds/<name>.md\` (set \`status: drafted\`).
+5. **Final Approval:** Present the PRD to the user for final validation and approval. Once approved, update the status to \`approved\`.
 `;
 
 export const specMd = `# Spec (/wlp:spec)
@@ -159,10 +160,11 @@ You are driving the entire lifecycle. You must navigate from Propose -> Spec -> 
 ## Instructions
 
 ### Phase 1: Propose (Brainstorm & PRD)
-1. **Simulate Council:** You MUST run and display the 3-persona Simulated Council debate (PM, Security, Tech Lead) in the chat to brainstorm requirements.
-2. **Draft PRD:** Write a draft PRD containing the initial requirements to \`wlp/prds/<name>.md\` (set \`status: drafted\`).
-3. **USER CHECKPOINT (Validation):** Present the draft PRD to the user and ask: *"Please review this PRD. Type 'approve' to start technical design and execution, or provide feedback."*
-4. **WAIT** for the user's validation/approval. Once approved, update status to \`approved\` and proceed to Phase 2 (Spec).
+1. **Internal Analysis:** Internally brainstorm (in your thought block) under 4 viewpoints (PM/BA, Dev, Architect, Security) to identify gaps, DB choices, tech stack, and edge cases. Do NOT roleplay or output any debate in the chat.
+2. **Clarification:** Present a targeted list of questions to the user in the chat (e.g., tech stack, database choices, core business logic flows). Always confirm anything unclear. Validate the requirements completely.
+3. **Draft PRD:** Write a draft PRD containing the validated requirements to \`wlp/prds/<name>.md\` (set \`status: drafted\`).
+4. **USER CHECKPOINT (Validation):** Present the draft PRD to the user and ask: *"Please review this PRD. Type 'approve' to start technical design and execution, or provide feedback."*
+5. **WAIT** for the user's validation/approval. Once approved, update status to \`approved\` and proceed to Phase 2 (Spec).
 
 ### Phase 2: Spec (Design & Tasks)
 1. **Design:** Generate \`wlp/epics/<name>/design.md\` based on the approved PRD (for Moderate/Enterprise changes).
