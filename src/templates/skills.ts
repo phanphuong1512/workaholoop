@@ -27,7 +27,7 @@ Always load:
 
 export const proposeMd = `# Propose (/wlp:propose)
 
-**Goal:** Rigorous brainstorming and validation using SIMULATED COUNCIL.
+**Goal:** Rigorous brainstorming and validation using SIMULATED COUNCIL, resulting in a Proposal and a validated PRD.
 
 ## 🚨 BEHAVIOR: THE SIMULATED COUNCIL (PARTY MODE)
 Before producing any artifact, you must simulate a debate between 3 personas:
@@ -35,14 +35,15 @@ Before producing any artifact, you must simulate a debate between 3 personas:
 2. **The Security/Ops Expert:** Focuses on vulnerabilities, edge cases, rate limits, and abuse.
 3. **The Tech Lead:** Focuses on performance, feasibility, and pushes back against feature creep.
 
-Run this debate internally or show it to the user. Ask probing questions based on this debate.
+You MUST display this debate to the user. Ask probing questions based on this debate.
 Do NOT blindly agree with the user. If the user asks for something illogical or overly complex, push back!
 
 ## Instructions
-1. Engage the user using the Simulated Council.
-2. Ask clarification questions (Clarify Phase) until there are no underspecified areas.
-3. Once finalized, create a Proposal file: \`wlp/proposals/<name>.md\`.
-4. The Proposal must contain: Problem, Target Audience, In-Scope, Out-of-Scope, and Clarified Edge Cases.
+1. **Simulate Council:** Display the 3-persona Simulated Council debate to the user.
+2. **Draft Proposal:** Write a draft proposal containing the initial requirements to \`wlp/proposals/<name>.md\`.
+3. **Validate & Clarify:** Ask clarification questions to the user based on the debate and the proposal.
+4. **Write PRD:** Once requirements are agreed upon, generate the formal Product Requirement Document (PRD) at \`wlp/prds/<name>.md\`.
+5. **Final Approval:** Present the PRD to the user for final validation and approval before moving to the next phase.
 `;
 
 export const specMd = `# Spec (/wlp:spec)
@@ -117,6 +118,16 @@ created: <datetime>
 ---
 \`\`\`
 
+## PRD (\`wlp/prds/<name>.md\`)
+\`\`\`yaml
+---
+name: <feature>
+status: drafted | approved
+created: <datetime>
+proposal: wlp/proposals/<name>.md
+---
+\`\`\`
+
 ## Epic (\`wlp/epics/<name>/epic.md\`)
 \`\`\`yaml
 ---
@@ -151,23 +162,36 @@ export const verifyMd = `# Verify (/wlp:verify)
 
 export const autoMd = `# Auto-Pilot (/wlp:auto)
 
-**Goal:** Run the full WLP lifecycle sequentially without human intervention to implement a feature or solve a bug.
+**Goal:** Run the full WLP lifecycle sequentially from Propose to Close, maintaining human validation checkpoints for specifications.
 
-## 🚨 THE FULL AUTOMATED LOOP
-You are tasked with executing the entire Loop Engineer lifecycle end-to-end. Do NOT ask for permission between phases. Proceed continuously until the feature is fully verified and closed.
+## 🚨 THE AUTOPILOT LIFECYCLE
+You are driving the entire lifecycle. You must navigate from Propose -> Spec -> Execute -> Verify -> Close automatically, but you MUST respect the critical validation checkpoints with the user.
 
 ## Instructions
-1. **Phase 1: Propose**
-   - Simulate the internal debate (Simulated Council) to refine requirements.
-   - Write the proposal to \`wlp/proposals/<name>.md\`.
-2. **Phase 2: Spec**
-   - Generate \`wlp/epics/<name>/design.md\` (if moderate/enterprise).
-   - Create \`wlp/epics/<name>/epic.md\` and tasks (\`001.md\`, etc.) with clear test specifications.
-3. **Phase 3: Execute**
-   - Create worktree: \`git worktree add ../.wlp-worktrees/<name> -b epic/<name>\`
-   - Run subagents to execute all tasks concurrently or sequentially.
-4. **Phase 4: Verify**
-   - Run \`npx wlp verify <name>\` inside the epic worktree to ensure typecheck, lint, test, and build all pass.
-5. **Phase 5: Close**
-   - Run \`npx wlp close <name>\` to push the branch, open a PR, and archive the epic locally.
+
+### Phase 1: Propose (Brainstorm & PRD)
+1. **Simulate Council:** You MUST run and display the 3-persona Simulated Council debate (PM, Security, Tech Lead) in the chat to brainstorm requirements.
+2. **Draft Proposal:** Write a draft proposal containing the initial requirements to \`wlp/proposals/<name>.md\`.
+3. **Write PRD:** Generate the formal Product Requirement Document (PRD) at \`wlp/prds/<name>.md\` linking to the proposal.
+4. **USER CHECKPOINT (Validation):** Present the PRD to the user and ask: *"Please review this PRD. Type 'approve' to start technical design and execution, or provide feedback."*
+5. **WAIT** for the user's validation before proceeding to Phase 2 (Spec).
+
+### Phase 2: Spec (Design & Tasks)
+1. **Design:** Generate \`wlp/epics/<name>/design.md\` based on the approved PRD (for Moderate/Enterprise changes).
+2. **Tasks:** Create \`wlp/epics/<name>/epic.md\` and tasks (\`001.md\`, etc.) with clear test plans.
+3. **USER CHECKPOINT (Optional):** Inform the user of the task breakdown and design. Proceed to Phase 3.
+
+### Phase 3: Execute (Coding & Verification)
+1. **Sync:** Run \`npx wlp sync\` to push the epic/tasks to GitHub.
+2. **Worktree:** Create the execution environment: \`git worktree add ../.wlp-worktrees/<name> -b epic/<name>\`
+3. **Subagents:** Launch parallel subagents using \`invoke_subagent\` for open tasks. Each subagent must run \`npx wlp verify\` in their worktree before completing.
+4. **Track:** Wait for all subagents to finish and mark tasks as closed.
+
+### Phase 4: Verify (Integration Testing)
+1. **Verify:** Run \`npx wlp verify <name>\` inside the epic worktree to ensure lint, typecheck, test, and build all pass.
+2. **Troubleshoot:** If verification fails, self-heal by fixing the bugs in the worktree and re-running verify.
+
+### Phase 5: Close (PR & Archive)
+1. **Close:** Run \`npx wlp close <name>\` to push the branch, create the GitHub PR, and archive the epic.
+2. **Report:** Report the completion summary to the user with the PR link.
 `;
