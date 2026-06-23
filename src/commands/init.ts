@@ -97,7 +97,6 @@ function initWorkspace(harness: string) {
 
     // 2. Create base directories
     const dirs = [
-      "wlp/proposals",
       "wlp/prds",
       "wlp/epics",
       "wlp/archived",

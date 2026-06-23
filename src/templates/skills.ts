@@ -40,15 +40,14 @@ Do NOT blindly agree with the user. If the user asks for something illogical or 
 
 ## Instructions
 1. **Simulate Council:** Display the 3-persona Simulated Council debate to the user.
-2. **Draft Proposal:** Write a draft proposal containing the initial requirements to \`wlp/proposals/<name>.md\`.
-3. **Validate & Clarify:** Ask clarification questions to the user based on the debate and the proposal.
-4. **Write PRD:** Once requirements are agreed upon, generate the formal Product Requirement Document (PRD) at \`wlp/prds/<name>.md\`.
-5. **Final Approval:** Present the PRD to the user for final validation and approval before moving to the next phase.
+2. **Draft PRD:** Write a draft PRD containing the initial requirements to \`wlp/prds/<name>.md\` (set \`status: drafted\`).
+3. **Validate & Clarify:** Ask clarification questions to the user based on the debate and the draft PRD.
+4. **Final Approval:** Present the finalized PRD to the user for final validation and approval. Once approved, update the status to \`approved\`.
 `;
 
 export const specMd = `# Spec (/wlp:spec)
 
-**Goal:** Translate the Proposal into a Technical Design and Epic with Adaptive Depth and Anti-Conflict Task splitting.
+**Goal:** Translate the PRD into a Technical Design and Epic with Adaptive Depth and Anti-Conflict Task splitting.
 
 ## 🚨 BEHAVIOR: ADAPTIVE DEPTH & ANTI-CONFLICT LOGIC
 1. **Adaptive Depth Analysis:** Assess the complexity of the feature.
@@ -59,7 +58,7 @@ export const specMd = `# Spec (/wlp:spec)
    - Only set \`parallel: true\` for strictly orthogonal tasks.
 
 ## Instructions
-1. Read the Proposal (\`wlp/proposals/<name>.md\`).
+1. Read the PRD (\`wlp/prds/<name>.md\`).
 2. Generate \`design.md\` (if Moderate/Enterprise).
 3. Create \`wlp/epics/<name>/epic.md\` (Epic tracking file).
 4. Create Task files (\`wlp/epics/<name>/001.md\`, etc.) with strict anti-conflict metadata. **CRITICAL:** For each task, you MUST define clear **Test Plan / Verification Criteria** (e.g., which tests to run, what test file to create or update, what cases to cover).
@@ -109,22 +108,12 @@ Users often write code manually outside the agent loop. This command prevents th
 
 export const conventionsMd = `# Conventions
 
-## Proposal (\`wlp/proposals/<name>.md\`)
-\`\`\`yaml
----
-name: <feature>
-status: drafted | finalized
-created: <datetime>
----
-\`\`\`
-
 ## PRD (\`wlp/prds/<name>.md\`)
 \`\`\`yaml
 ---
 name: <feature>
 status: drafted | approved
 created: <datetime>
-proposal: wlp/proposals/<name>.md
 ---
 \`\`\`
 
@@ -171,10 +160,9 @@ You are driving the entire lifecycle. You must navigate from Propose -> Spec -> 
 
 ### Phase 1: Propose (Brainstorm & PRD)
 1. **Simulate Council:** You MUST run and display the 3-persona Simulated Council debate (PM, Security, Tech Lead) in the chat to brainstorm requirements.
-2. **Draft Proposal:** Write a draft proposal containing the initial requirements to \`wlp/proposals/<name>.md\`.
-3. **Write PRD:** Generate the formal Product Requirement Document (PRD) at \`wlp/prds/<name>.md\` linking to the proposal.
-4. **USER CHECKPOINT (Validation):** Present the PRD to the user and ask: *"Please review this PRD. Type 'approve' to start technical design and execution, or provide feedback."*
-5. **WAIT** for the user's validation before proceeding to Phase 2 (Spec).
+2. **Draft PRD:** Write a draft PRD containing the initial requirements to \`wlp/prds/<name>.md\` (set \`status: drafted\`).
+3. **USER CHECKPOINT (Validation):** Present the draft PRD to the user and ask: *"Please review this PRD. Type 'approve' to start technical design and execution, or provide feedback."*
+4. **WAIT** for the user's validation/approval. Once approved, update status to \`approved\` and proceed to Phase 2 (Spec).
 
 ### Phase 2: Spec (Design & Tasks)
 1. **Design:** Generate \`wlp/epics/<name>/design.md\` based on the approved PRD (for Moderate/Enterprise changes).

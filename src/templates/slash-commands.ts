@@ -4,7 +4,7 @@ name: WLP: Propose
 description: Brainstorm and capture rigorous requirements (Phase 1)
 ---
 # /wlp:propose
-Use this command to rigorous brainstorm and write a PRD to \`wlp/proposals/\`.`,
+Use this command to rigorously brainstorm and write a PRD to \`wlp/prds/\`.`,
 
   'wlp/spec.md': `---
 name: WLP: Spec

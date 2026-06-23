@@ -80,10 +80,10 @@ WLP enforces a strict, four-phase lifecycle. You can trigger these via Slash Com
 
 ### Step 1: Brainstorming & Requirements (`/wlp:propose`)
 Initiates the **Party Mode**. The agent acts as a strict council, asking hard questions about edge cases, scopes, and vulnerabilities. 
-- **Output:** A bulletproof proposal saved to `wlp/proposals/<name>.md`.
+- **Output:** A vetted Product Requirement Document (PRD) saved to `wlp/prds/<name>.md`.
 
 ### Step 2: Architecture & Splitting (`/wlp:spec`)
-The Architect takes over. It reads the proposal and writes a technical constitution (`design.md`). Then, it breaks the work into an Epic and orthogonal tasks (`001.md`, `002.md`).
+The Architect takes over. It reads the approved PRD and writes a technical design (`design.md`). Then, it breaks the work into an Epic and orthogonal tasks (`001.md`, `002.md`).
 - **Output:** `wlp/epics/<name>/design.md`, `epic.md`, and task files.
 
 ### Step 3: Parallel Execution (`/wlp:execute`)
@@ -106,8 +106,7 @@ When you run `wlp init`, the following structure is injected into your repositor
 ```text
 .
 ├── wlp/
-│   ├── proposals/       # Vetted requirements (Output of /wlp:propose)
-│   ├── prds/            # Legacy PRD storage
+│   ├── prds/            # Vetted Product Requirement Documents (Output of /wlp:propose)
 │   ├── epics/           # Technical designs, epic trackers, and granular tasks
 │   ├── memory/          # Continuous learning ledger (learned.md)
 │   ├── archived/        # Completed and merged epics
