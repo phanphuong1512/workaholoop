@@ -5,7 +5,7 @@ import { HarnessAdapter } from './types.js';
 
 export const agentsAdapter: HarnessAdapter = {
   id: 'agents',
-  name: 'Open Agent Standard',
+  name: 'Open Standard',
   generateCommands(cwd: string, commands: Record<string, string>): void {
     let count = 0;
 

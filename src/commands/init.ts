@@ -31,7 +31,7 @@ export const initCommand = new Command("init")
               description: 'Generates custom skills in .claude/skills/'
             },
             { 
-              name: 'Open Agent Standard', 
+              name: 'Open Standard', 
               value: 'agents',
               description: 'Configures custom skills in .agents/skills/ (supports Google Antigravity, GitHub Copilot, ZCode, etc.)'
             },
