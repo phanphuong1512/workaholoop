@@ -3,9 +3,9 @@ import path from 'path';
 import pc from 'picocolors';
 import { HarnessAdapter } from './types.js';
 
-export const copilotAdapter: HarnessAdapter = {
-  id: 'copilot',
-  name: 'GitHub Copilot VSCode',
+export const agentsAdapter: HarnessAdapter = {
+  id: 'agents',
+  name: 'GitHub Copilot & Google Antigravity',
   generateCommands(cwd: string, commands: Record<string, string>): void {
     let count = 0;
 
@@ -62,7 +62,7 @@ To properly execute this command, you MUST also read the global rules in \`wlp/s
     }
 
     if (count > 0) {
-      console.log(pc.green('✓ Created .agents/skills/ proxy skills for GitHub Copilot'));
+      console.log(pc.green('✓ Created .agents/skills/ proxy skills for Copilot/Antigravity'));
     } else {
       console.log(pc.gray('- .agents/skills/ proxy skills already exist'));
     }

@@ -1,6 +1,6 @@
 {
   "name": "@workaholoop/wlp",
-  "version": "0.4.9",
+  "version": "0.4.10",
   "description": "A Spec-Driven State Machine for AI Agents. Enforces structured workflows, parallel worktrees, and zero-config GitHub sync.",
   "main": "dist/cli.js",
   "engines": {

@@ -8,21 +8,63 @@ export const claudeAdapter: HarnessAdapter = {
   name: 'Claude Code',
   generateCommands(cwd: string, commands: Record<string, string>): void {
     let count = 0;
+
+    // 1. Create the master WLP skill
+    const globalSkillPath = path.join(cwd, '.claude/skills/wlp/SKILL.md');
+    fs.mkdirSync(path.dirname(globalSkillPath), { recursive: true });
+    
+    const masterSkillContent = `---
+name: wlp
+description: "Workaholoop (WLP) Spec-Driven State Machine. ACTIVATE this skill when the user wants to propose, spec, plan, execute, verify, or close a feature using the WLP workflow."
+---
+
+# Workaholoop (WLP)
+
+To execute WLP workflows, you MUST read and strictly follow the state machine defined in \`wlp/skills/core/SKILL.md\` and its references.
+`;
+
+    if (!fs.existsSync(globalSkillPath)) {
+      fs.writeFileSync(globalSkillPath, masterSkillContent);
+      count++;
+    }
+
+    // 2. Create specific slash command skills
     for (const [filename, content] of Object.entries(commands)) {
-      const cmdPath = path.join(cwd, '.claude/commands', filename);
-      const dirPath = path.dirname(cmdPath);
+      const baseName = filename.replace('.md', '');
+      const folderName = baseName.replace(/\//g, '-');
+      const skillName = baseName.replace(/\//g, ':');
+
+      const skillPath = path.join(cwd, '.claude/skills', folderName, 'SKILL.md');
+      const dirPath = path.dirname(skillPath);
+      
       if (!fs.existsSync(dirPath)) {
         fs.mkdirSync(dirPath, { recursive: true });
       }
-      if (!fs.existsSync(cmdPath)) {
-        fs.writeFileSync(cmdPath, content);
+      
+      if (!fs.existsSync(skillPath)) {
+        const descMatch = content.match(/description:\s*(.*)/);
+        const desc = descMatch ? descMatch[1] : 'WLP Command';
+
+        const proxyContent = `---
+name: "${skillName}"
+description: "${desc}"
+---
+
+${content}
+
+***
+**WLP CORE REQUIREMENT:** 
+To properly execute this command, you MUST also read the global rules in \`wlp/skills/core/SKILL.md\`.
+`;
+        fs.writeFileSync(skillPath, proxyContent);
         count++;
       }
     }
+
     if (count > 0) {
-      console.log(pc.green('✓ Created .claude/commands/wlp/ slash command files'));
+      console.log(pc.green('✓ Created .claude/skills/ proxy skills for Claude Code'));
     } else {
-      console.log(pc.gray('- .claude/commands/wlp/ slash command files already exist'));
+      console.log(pc.gray('- .claude/skills/ proxy skills already exist'));
     }
   }
 };

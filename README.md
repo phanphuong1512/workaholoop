@@ -98,7 +98,7 @@ cd my-project
 wlp init
 ```
 
-*Note: This command scaffolds the required `wlp/` directory structure and installs Slash Commands for popular AI coding extensions (e.g., Claude Code, Google Antigravity, OpenCode).*
+*Note: This command scaffolds the required `wlp/` directory structure and installs Custom Skills for popular AI coding tools (e.g., Claude Code, Google Antigravity, GitHub Copilot).*
 
 ---
 
@@ -141,9 +141,8 @@ When you run `wlp init`, the following structure is injected into your repositor
 │   └── skills/          # Agent behavior prompts and intent routers
 │       ├── core/        # Core WLP loop logic
 │       └── worktree/    # Git worktree orchestration rules
-├── .claude/             # Generated slash commands for Claude
-├── .agents/             # Generated proxy skills for Google Antigravity
-└── .opencode/           # Generated slash commands for OpenCode
+├── .claude/             # Generated custom skills for Claude Code
+└── .agents/             # Generated proxy skills for Google Antigravity & GitHub Copilot
 ```
 
 ---

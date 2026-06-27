@@ -12,10 +12,10 @@ import { worktreeSkillMd } from "../templates/worktree-skill.js";
 import { ALL_ADAPTERS } from "../adapters/index.js";
 
 export const initCommand = new Command("init")
-  .description("Scaffolds wlp/ directory and generates .claude/commands")
+  .description("Scaffolds wlp/ directory and generates agent skills")
   .option(
     "-h, --harness <name>",
-    "Which AI agent harness to configure for (claude, antigravity, opencode, all)"
+    "Which AI agent harness to configure for (claude, agents)"
   )
   .action(async (options) => {
     let selectedHarness = options.harness;
@@ -26,29 +26,14 @@ export const initCommand = new Command("init")
           message: 'Which AI Agent Harness do you want to configure?',
           choices: [
             { 
-              name: 'All', 
-              value: 'all',
-              description: 'Installs configurations for all supported AI agents'
-            },
-            { 
               name: 'Claude Code', 
               value: 'claude',
-              description: 'Generates slash commands in .claude/commands/'
+              description: 'Generates custom skills in .claude/skills/'
             },
             { 
-              name: 'Google Antigravity', 
-              value: 'antigravity',
-              description: 'Configures Natural Language Intent Routing'
-            },
-            { 
-              name: 'GitHub Copilot VSCode', 
-              value: 'copilot',
-              description: 'Configures skills for Copilot VSCode in .agents/skills/'
-            },
-            { 
-              name: 'OpenCode', 
-              value: 'opencode',
-              description: 'Generates slash commands in .opencode/commands/'
+              name: 'GitHub Copilot & Google Antigravity', 
+              value: 'agents',
+              description: 'Configures custom skills in .agents/skills/'
             },
           ],
         });
@@ -136,10 +121,7 @@ function initWorkspace(harness: string) {
     }
 
     // 5. Write slash commands via Adapters
-    const adaptersToRun =
-      harness === "all"
-        ? ALL_ADAPTERS
-        : ALL_ADAPTERS.filter((a) => a.id === harness);
+    const adaptersToRun = ALL_ADAPTERS.filter((a) => a.id === harness);
 
     if (adaptersToRun.length === 0) {
       console.log(
